@@ -1,0 +1,12 @@
+.admin_box {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  .left {
+    height: 100%;
+  }
+  .right {
+    height: 100%;
+    flex: 1;
+  }
+}
