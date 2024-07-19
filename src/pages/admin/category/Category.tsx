@@ -1,13 +1,6 @@
 import React from "react";
 import "./Category.scss";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-
-
 export default function Category() {
-  const categoryStore = useSelector((state: RootState) => state.category);
-  console.log("categoryStore", categoryStore);
-
   return (
     <div className="category-list">
       <div className="search-bar">
@@ -45,29 +38,19 @@ export default function Category() {
           </tr>
         </thead>
         <tbody>
-          {
-            categoryStore.data?.map(
-              (category,index) => (
-                <tr key={category.id}>
-                  <td>{index + 1}</td>
-                  <td>{category.name}</td>
-                  <td >
-                    <img src={category.image} alt={category.name}  style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "5px",
-                    }}/>
-                  </td>
-                  <td>{category.status ? "Đang bán" : "Ngừng bán"}</td>
-                  <td>
-                    <button className="edit-btn">Edit</button>
-                    <button className="delete-btn">Delete</button>
-                  </td>
-                </tr>
-              )
-            )
-          }
+          {/* Example row */}
+          <tr>
+            <td>1</td>
+            <td>Example Category</td>
+            <td>
+              <img src="example.jpg" alt="Example" className="hello" />
+            </td>
+            <td>Đang bán</td>
+            <td>
+              <button className="edit-btn">Edit</button>
+              <button className="delete-btn">Delete</button>
+            </td>
+          </tr>
         </tbody>
       </table>
 
