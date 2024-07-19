@@ -4,8 +4,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export interface Category {
   id: number;
   name: string;
-  iconUrl: string;
+  image: string;
+  description: string;
   status: boolean;
+  created_at: string;
 }
 
 export interface CategoryState {
@@ -26,11 +28,12 @@ const categorySlice = createSlice({
     });
   },
 });
-
+ 
 const fecthCategories = createAsyncThunk(
   "category/fetchCategories",
   async () => {
     const response = await api.categories.getAll();
+    console.log(response.data);
     return response.data;
   }
 );
