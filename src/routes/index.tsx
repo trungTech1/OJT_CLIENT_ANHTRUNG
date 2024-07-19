@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { lazyFnDelay } from "./lazy";
+import { lazyFn, lazyFnDelay } from "./lazy";
 import User from "@/pages/admin/user/User";
 import Category from "@/pages/admin/category/Category";
 import Product from "@/pages/admin/product/Product";
@@ -22,10 +22,22 @@ const RouterSetup = () => {
           path="/admin"
           element={lazyFnDelay(() => import("@pages/admin/Admin"))}
         >
-          <Route path="user" element={<User />}></Route>
-          <Route path="category" element={<Category></Category>}></Route>
-          <Route path="product" element={<Product></Product>}></Route>
-          <Route path="order" element={<Order></Order>}></Route>
+          <Route
+            path="user"
+            element={lazyFn(() => import("@pages/admin/user/User"))}
+          ></Route>
+          <Route
+            path="category"
+            element={lazyFn(() => import("@pages/admin/category/Category"))}
+          ></Route>
+          <Route
+            path="product"
+            element={lazyFn(() => import("@pages/admin/product/Product"))}
+          ></Route>
+          <Route
+            path="order"
+            element={lazyFn(() => import("@pages/admin/order/Order"))}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>
