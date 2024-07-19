@@ -1,8 +1,7 @@
 import categoryApi from "./module/category.api";
-import userApi from "./module/user.api";
-
+import { userApi } from "./module/user.api";
 
 export default {
-    categories: categoryApi,
-    user : userApi
-}
+  categories: categoryApi,
+  user: userApi,
+};
