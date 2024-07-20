@@ -33,7 +33,7 @@ const userSlice = createSlice({
 const fetchUsers = createAsyncThunk(
     "user/fetchUsers",
     async () => {
-        const response = await api.user.getAll();
+        const response = await api.users.getAll();
         return response.data;
     }
 );

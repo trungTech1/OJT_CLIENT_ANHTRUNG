@@ -1,12 +1,6 @@
 import api from "@/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-export interface Category {
-  id: number;
-  name: string;
-  iconUrl: string;
-  status: boolean;
-}
+import { Category } from "@/interface/category.interface";
 
 export interface CategoryState {
   data: Category[] | null;
@@ -19,7 +13,25 @@ const initialState: CategoryState = {
 const categorySlice = createSlice({
   name: "category",
   initialState,
-  reducers: {},
+  reducers: {
+    addCategory: (state, action) => {
+      state.data?.push(action.payload);
+    },
+    updateCategory: (state, action) => {
+      const index = state.data?.findIndex(
+        (category) => category.id === action.payload.id) as number;
+      if (index >= 0  && state.data) {
+        state.data?.splice(index, 1, action.payload);
+      }
+    },
+    deleteCategory: (state, action) => {
+      const index = state.data?.findIndex(
+        (category) => category.id === action.payload) as number;
+      if (index >= 0 && state.data) {
+        state.data?.splice(index, 1);
+      }
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fecthCategories.fulfilled, (state, action) => {
       state.data = action.payload;
