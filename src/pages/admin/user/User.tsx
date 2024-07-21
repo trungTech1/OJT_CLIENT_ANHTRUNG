@@ -68,6 +68,28 @@ export default function User() {
   ) => {
     setCurrentPage(page);
   };
+  //chan user
+  const userBlock = (id: number, roleName: string) => {
+    if (roleName === "ROLE_ADMIN") {
+      alert("Admin không thể chặn chính mình");
+      return; // Dừng hàm nếu là admin
+    }
+    const isConfirm = window.confirm(
+      "Bạn có chắc chắn muốn chặn user này không?"
+    );
+    if (!isConfirm) {
+      return;
+    }
+    api.users
+      .userBlock(id)
+      .then((res) => {
+        console.log("da vao", res.data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
   return (
     <div className="user_container">
       <select onChange={handleChange}>
@@ -127,7 +149,12 @@ export default function User() {
                 <button>Manager</button>
               </td>
               <td>
-                <button className="btn btn-danger">block</button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => userBlock(user.id, user.roles[0].roleName)}
+                >
+                  {user.status ? "Block" : "Unblock"}
+                </button>
               </td>
             </tr>
           ))}
