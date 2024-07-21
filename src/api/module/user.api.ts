@@ -22,4 +22,7 @@ export const userApi = {
   userSearch: async (name: string) => {
     return axios.get(`${url}/user/searchUserByName?name=${name}`);
   },
+  userBlock: async (id: number) => {
+    return axios.put(`${url}/user/toggleBlockUser/${id}`);
+  },
 };

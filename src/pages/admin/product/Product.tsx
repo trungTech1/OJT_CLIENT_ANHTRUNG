@@ -1,14 +1,28 @@
+import { useEffect, useState } from "react";
 import "./Product.scss";
+import type { ProductInterface } from "@/interface/Product.interface";
+import api from "@/api";
 
 export default function Product() {
+const [Products, setProducts] = useState<ProductInterface[]>([]);
+
+useEffect(() => {
+  api.products.getProducts().then((res) => {
+    console.log(res.data);
+    setProducts(res.data);
+  }
+  ).catch((err) => {
+    console.log(err);
+  });
+}, []);
   return (
-    <div className="category-list">
+    <div className="product-list">
       <div id="fui-toast"></div>
 
       <div className="search-bar">
-        <h1>Category</h1>
+        <h1>Product</h1>
         <div>
-          <input type="text" placeholder="Search for category" />
+          <input type="text" placeholder="Search for product" />
           <button
             style={{
               marginLeft: "10px",
@@ -24,56 +38,60 @@ export default function Product() {
           </button>
         </div>
       </div>
-
-      <h1>Product</h1>
       <h2>All Products</h2>
 
-      <button className="add-category-btn">
-        <a className="link-add-category" href="/add">
+      <button className="btn btn-primary add-product-btn">
           Add Product
-        </a>
       </button>
-
+      
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Quantity</th>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>SKU</th>
             <th>Status</th>
-            <th>SpecialProducts</th>
-            <th colSpan={2}>Tools</th>
+            <th>Category</th>
+            <th>Image</th>
+            <th>Created At</th>
+            <th>Product Detail</th>
+            <th>Brand</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {/* <!-- Example row --> */}
-          <tr>
-            <td>1</td>
-            <td>Example Product</td>
-            <td>Electronics</td>
-            <td>$499</td>
-            <td>
-              <img
-                className="product-image"
-                src="example_image_url"
-                alt="Example Product"
-                style={{ width: "100px", height: "100px" }}
-              />
-            </td>
-            <td>50</td>
-            <td>Active</td>
-            <td>No</td>
-            <td>Edit</td>
-            <td>Delete</td>
-          </tr>
-          {/* <!-- Add more rows as needed with static data --> */}
+          {Products.map((product, index) => (
+            <tr key={product.id}>
+              <td>{index + 1}</td>
+              <td>{product.productName}</td>
+              <td>{product.sku}</td>
+              <td>{product.status ? "Active" : "Inactive"}</td>
+              <td>{product.category.name}</td>
+              <td>
+                <img
+                  src={product.image}
+                  alt={product.productName}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "5px",
+                  }}
+                />
+              </td>
+              <td>{product.created_at.slice(0, 10)}</td>
+              <td>
+                <button className="btn btn-primary">Edit</button>
+              </td>
+              <td>{product.brand.brandName}</td>
+              <td>
+                <button className="btn btn-primary">Edit</button>
+                <button className="btn btn-danger">Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-
-      {/* <!-- Static Pagination Example --> */}
       <div
         style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
       >
