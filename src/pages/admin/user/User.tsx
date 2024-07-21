@@ -3,16 +3,88 @@ import "./User.scss";
 import { useEffect, useState } from "react";
 import api from "@/api";
 import type { User } from "../../interface/User";
+import Pagination from "@mui/material/Pagination";
+
 export default function User() {
+  //hien thi danh sach user
   const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
-    api.user.getAll().then((res) => {
+    api.users.getAll().then((res) => {
       console.log("da vao", res.data);
       setUsers(res.data);
     });
   }, []);
+
+  //sap xep user theo ten tang dang
+  const userAscending = () => {
+    api.users.userAscending().then((res) => {
+      // console.log("da  asdadavao", res.data);
+      setUsers(res.data);
+    });
+  };
+  //sap xep user theo ten giam dan
+  const userDescending = () => {
+    api.users.userDescending().then((res) => {
+      // console.log("da vao", res.data);
+      setUsers(res.data);
+    });
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleChange(event: any) {
+    const value = event.target.value;
+    if (value === "ascending") {
+      userAscending();
+    } else if (value === "descending") {
+      userDescending();
+    }
+  }
+
+  //tim kiem user theo ten
+  const [search, setSearch] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleInputChange = (event: any) => {
+    setSearch(event.target.value);
+  };
+  const handleSearch = () => {
+    api.users.userSearch(search).then((res) => {
+      setUsers(res.data);
+      // console.log("Search results:", res.data);
+    });
+  };
+  //phan trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  useEffect(() => {
+    api.users.userPagination(currentPage, 2).then((res) => {
+      // console.log("da vao", res.data);
+      setUsers(res.data.content);
+      setTotalPage(res.data.totalPages);
+      // console.log("totalPage", totalPage);
+    });
+  }, [currentPage]);
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
   return (
     <div className="user_container">
+      <select onChange={handleChange}>
+        <option value="none">Sắp xếp</option>
+        <option value="ascending"> Sắp xếp từ A-Z</option>
+        <option value="descending"> Sắp xếp từ Z-A</option>
+      </select>
+      <div>
+        <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={handleInputChange} // Update the search state as you type
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -46,7 +118,7 @@ export default function User() {
                   }}
                 />
               </td>
-              <td>{user.roles}</td>
+              <td>{user.roles[0].roleName}</td>
               <td>{user.status ? "Active" : "Inactive"}</td>
 
               <td>{new Date(user.created_at).toLocaleDateString("en-GB")}</td>
@@ -61,6 +133,13 @@ export default function User() {
           ))}
         </tbody>
       </Table>
+      <Pagination
+        count={totalPage} // Use the calculated total pages
+        page={currentPage} // Current page
+        onChange={handlePageChange} // Handle page change
+        shape="rounded"
+        style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
+      />
     </div>
   );
 }
