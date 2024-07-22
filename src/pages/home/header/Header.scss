@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.top {
+  display: flex;
+  background-color: black;
+  color: white;
+  justify-content: center;
+  font-size: 20px;
+  padding-top: 10px;
+  a {
+    color: white;
+  }
+  .language {
+    transform: translate(440px, 0px);
+    select {
+      background-color: black;
+      color: white;
+      border: none;
+    }
+  }
+}
+
+//nav bar
+.navbar {
+  display: flex;
+  justify-content: space-evenly;
+  &-item {
+    width: 400px;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 20px;
+    a {
+      text-decoration: none;
+      color: rgb(23, 20, 20);
+    }
+  }
+  .search {
+    width: 290px;
+    display: flex;
+    justify-content: space-between;
+    &-bar {
+      display: flex;
+      gap: 10px;
+      border-radius: 10px;
+      button {
+        border: none;
+        font-size: 20px;
+        background-color: white;
+      }
+      input {
+        border: none;
+        background-color: white;
+      }
+    }
+    &-item {
+      width: 100px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-left: 5px;
+      a {
+        text-decoration: none;
+        color: rgb(23, 20, 20);
+      }
+    }
+  }
+}
+
+// menu and carosel
+.menu_hero {
+  display: flex;
+  max-width: 75%;
+  height: 344px;
+  margin: 0 auto;
+  gap: 20px;
+  .left {
+    width: 22%;
+    border: 1px solid black;
+  }
+  .mid {
+    width: 0.1%;
+    background-color: rgb(192, 192, 192);
+    transform: translate(0px, -17px);
+    height: 361px;
+  }
+  .right {
+    width: 70%;
+    // background-color: red;
+    .contentStyle {
+      height: 344px;
+      color: #ca3030;
+      line-height: 160px;
+
+      background-color: #364d79;
+    }
+  }
+}
+//carosel
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel .slick-dots li button {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 15px;
+  padding: 0;
+  color: transparent;
+  font-size: 0;
+  background: #818080;
+  border: 2px solid white;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  opacity: 0.2;
+  transition: all 0.3s;
+}
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel
+  .slick-dots
+  li.slick-active
+  button {
+  background: #ff1f1f;
+  opacity: 1;
+}
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel
+  .slick-dots
+  li.slick-active {
+  width: 15px;
+}
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel .slick-dots-bottom {
+  bottom: 34px;
+  border-radius: 50%;
+  transform: translate(-48px, 10px);
+}

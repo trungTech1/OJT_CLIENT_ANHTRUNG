@@ -1,21 +1,13 @@
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
+import Product from "./product/Product";
 
 export default function Home() {
-  const categoryStote = useSelector((state: RootState) => state.category);
-  console.log("categoryStote", categoryStote)
   return (
-    <div>
-      <h1>category</h1>
-      <ul>
-        {categoryStote.data?.map((category) => (
-          <li key={category.id}>
-            <img src={category.iconUrl} alt={category.name} />
-            <p>{category.name}</p>
-            <p>{category.status ? "con ban" : "het ban"}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+    <>
+      <Header></Header>
+      <Product></Product>
+      <Footer></Footer>
+    </>
+  );
 }
