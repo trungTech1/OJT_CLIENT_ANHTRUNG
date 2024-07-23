@@ -2,23 +2,91 @@ import { useEffect, useState } from "react";
 import "./Product.scss";
 import type { ProductInterface } from "@/interface/Product.interface";
 import api from "@/api";
+import AddModal from "./modal/Add-edit";
+import DetailModal from "./modal/productDetail";
+import { Modal } from "antd";
+import Add from "./modal/Add";
 
 export default function Product() {
-const [Products, setProducts] = useState<ProductInterface[]>([]);
+  const [Products, setProducts] = useState<ProductInterface[]>([]);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [modalMode, setModalMode] = useState("add");
+  const [addModalType, setAddModalType] = useState<
+    "color" | "config" | "brand" | ""
+  >("");
 
-useEffect(() => {
-  api.products.getProducts().then((res) => {
-    console.log(res.data);
-    setProducts(res.data);
-  }
-  ).catch((err) => {
-    console.log(err);
-  });
-}, []);
+  const handleAddColor = () => {
+    setAddModalType("color");
+    setShowAddModal(true);
+  };
+
+  const handleAddConfig = () => {
+    setAddModalType("config");
+    setShowAddModal(true);
+  };
+
+  const handleAddBrand = () => {
+    setAddModalType("brand");
+    setShowAddModal(true);
+  };
+  const [selectedProduct, setSelectedProduct] = useState<ProductInterface>(
+    {} as ProductInterface
+  );
+  const [showModalDetail, setShowModalDetail] = useState(false);
+
+  useEffect(() => {
+    api.products
+      .getProducts()
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleAddProduct = () => {
+    setModalMode("add");
+    setSelectedProduct({} as ProductInterface);
+    setShowProductModal(true);
+  };
+
+  const handleEditProduct = (product: ProductInterface) => {
+    setModalMode("edit");
+    setSelectedProduct(product);
+    setShowProductModal(true);
+  };
+
+  const handleProductDetail = (product: ProductInterface) => {
+    setSelectedProduct(product);
+    setShowModalDetail(true);
+  };
   return (
     <div className="product-list">
       <div id="fui-toast"></div>
+      <Add
+        show={showAddModal}
+        handleClose={() => {
+          setShowAddModal(false);
+          setAddModalType("");
+        }}
+        mode="add"
+        type={addModalType}
+      />
 
+      <DetailModal
+        show={showModalDetail}
+        handleClose={() => setShowModalDetail(false)}
+        product={selectedProduct}
+      />
+      <AddModal
+        show={showProductModal}
+        handleClose={() => setShowProductModal(false)}
+        mode={modalMode}
+        product={selectedProduct}
+        products={Products}
+      />
       <div className="search-bar">
         <h1>Product</h1>
         <div>
@@ -40,10 +108,33 @@ useEffect(() => {
       </div>
       <h2>All Products</h2>
 
-      <button className="btn btn-primary add-product-btn">
-          Add Product
+      <button
+        className="btn btn-primary add-product-btn"
+        onClick={handleAddProduct}
+        style={{ marginRight: "10px" }}
+      >
+        Add Product
       </button>
-      
+      <button
+        className="btn btn-primary add-product-btn"
+        onClick={handleAddColor}
+        style={{ marginRight: "10px" }}
+      >
+        Add Color
+      </button>
+      <button
+        className="btn btn-primary add-product-btn"
+        onClick={handleAddConfig}
+        style={{ marginRight: "10px" }}
+      >
+        Add Config
+      </button>
+      <button
+        className="btn btn-primary add-product-btn"
+        onClick={handleAddBrand}
+      >
+        Add Brand
+      </button>
       <table>
         <thead>
           <tr>
@@ -60,7 +151,7 @@ useEffect(() => {
           </tr>
         </thead>
         <tbody>
-          {Products.map((product, index) => (
+          {Products?.map((product, index) => (
             <tr key={product.id}>
               <td>{index + 1}</td>
               <td>{product.productName}</td>
@@ -79,14 +170,53 @@ useEffect(() => {
                   }}
                 />
               </td>
-              <td>{product.created_at.slice(0, 10)}</td>
-              <td>
-                <button className="btn btn-primary">Edit</button>
-              </td>
+              <td>{product.created_at?.slice(0, 10)}</td>
+
               <td>{product.brand.brandName}</td>
               <td>
-                <button className="btn btn-primary">Edit</button>
-                <button className="btn btn-danger">Delete</button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleProductDetail(product)}
+                >
+                  Detail
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleEditProduct(product)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    Modal.confirm({
+                      title: "Delete Product",
+                      content: `Bạn có chắc chắn muốn xóa ${product.productName}?`,
+                      onOk() {
+                        api.products
+                          .deleteProduct(product.id)
+                          .then(() => {
+                            //reset lại state
+                            api.products
+                              .getProducts()
+                              .then((res) => {
+                                setProducts(res.data);
+                              })
+                              .catch((err) => {
+                                console.log(err);
+                              });
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
+                      },
+                    });
+                  }}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

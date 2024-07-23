@@ -3,15 +3,15 @@ import { Category } from "./category.interface";
 export interface ProductInterface {
     id: number;
     productName: string;
-    price: number;
     sku: number;
     status: boolean;
     category: Category;
     description: string;
     image: string;
     created_at: string;
-    productDetail: ProductDetail;
+    productDetails: ProductDetail[];
     brand: Brand;
+    images : string[];
 }
 
 
@@ -23,6 +23,7 @@ export interface ProductDetail {
     status: boolean;
     image: string;
     color: Color;
+    config: Config[];
 }
 
 export interface Color {
@@ -39,5 +40,27 @@ export interface Brand {
     description : string;
 }
 
+export interface Config {
+    id: number;
+    configName: string;
+    status: boolean;
+}
 
+
+export interface ProductForm {
+    productName: string;
+    sku: number;
+    categoryId: number;
+    description: string;
+    images : string[];
+    brandId: number;
+}
+
+export interface ProductDetailForm {
+    productDetailName: string;
+    stock: number;
+    unitPrice: number;
+    colorId: number;
+    configId: number;
+}
 
