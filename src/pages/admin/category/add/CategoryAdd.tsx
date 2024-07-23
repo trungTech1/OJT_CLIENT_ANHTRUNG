@@ -7,17 +7,9 @@ import { fireBaseFn } from "@/firebase/firebase";
 import { useDispatch } from "react-redux";
 import { categoryActions } from "@/store/slices/category.slice";
 
-const AddModal = ({
-  show,
-  handleClose,
-  mode,
-  category,
-}: {
-  show: boolean;
-  handleClose: () => void;
+const AddModal = ({ show,handleClose, mode,category,}: {show: boolean; handleClose: () => void;
   mode: string;
-  category: any;
-}) => {
+  category: any; }) => {
   const dispatch = useDispatch();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,9 +34,8 @@ const AddModal = ({
           console.log(error);
         });
     } else if (mode === "edit" && category) {
-
       api.categories
-        .updateCategory(data,category.id)
+        .updateCategory(data, category.id)
         .then((res) => {
           dispatch(categoryActions.updateCategory(res.data));
           handleClose();
@@ -57,11 +48,12 @@ const AddModal = ({
 
   return (
     <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header closeButton   
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-      }}
+      <Modal.Header
+        closeButton
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         <Modal.Title>
           {mode === "edit" ? "Edit Category" : "Add Category"}
@@ -99,14 +91,16 @@ const AddModal = ({
           </Form.Group>
           <Form.Group controlId="formCategoryDescrip">
             <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" name="formCategoryDescrip" rows={3}
-            defaultValue={mode === "edit" ? category.description : ""} />
+            <Form.Control
+              as="textarea"
+              name="formCategoryDescrip"
+              rows={3}
+              defaultValue={mode === "edit" ? category.description : ""}
+            />
           </Form.Group>
           <Modal.Footer>
             <Button variant="primary" type="submit">
-              {
-                mode === "edit" ? "Update Category" : "Add Category"
-              }
+              {mode === "edit" ? "Update Category" : "Add Category"}
             </Button>
           </Modal.Footer>
         </Form>
