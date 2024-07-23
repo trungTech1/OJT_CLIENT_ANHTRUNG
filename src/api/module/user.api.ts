@@ -25,4 +25,13 @@ export const userApi = {
   userBlock: async (id: number) => {
     return axios.put(`${url}/user/toggleBlockUser/${id}`);
   },
+  userRegister: async (data: any) => {
+    return axios.post(`${url}/user/register`, data);
+  },
+  userLogin: async (data: any) => {
+    return axios.post(`${url}/user/login`, data);
+  },
+  userVerify: async (token: any) => {
+    return axios.get(`${url}/user/verify`, token);
+  },
 };

@@ -1,10 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import { lazyFn, lazyFnDelay } from "./lazy";
-import User from "@/pages/admin/user/User";
-import Category from "@/pages/admin/category/Category";
-import Product from "@/pages/admin/product/Product";
-import Order from "@/pages/admin/order/Order";
 
 const RouterSetup = () => {
   return (
@@ -13,6 +8,14 @@ const RouterSetup = () => {
         <Route
           path="/"
           element={lazyFnDelay(() => import("@pages/home/Home"))}
+        ></Route>
+        <Route
+          path="/login"
+          element={lazyFn(() => import("@pages/home/login/Login"))}
+        ></Route>
+        <Route
+          path="/register"
+          element={lazyFn(() => import("@pages/home/register/Register"))}
         ></Route>
         <Route
           path="*"

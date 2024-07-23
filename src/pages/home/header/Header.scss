@@ -133,3 +133,169 @@
   border-radius: 50%;
   transform: translate(-48px, 10px);
 }
+
+// Existing styles remain the same
+
+// Media queries for responsiveness
+@media (max-width: 1024px) {
+  .menu_hero {
+    max-width: 90%;
+
+    .left {
+      width: 25%;
+    }
+
+    .right {
+      width: 67%;
+    }
+  }
+
+  .navbar {
+    .search {
+      width: 200px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+      text-align: center;
+    }
+    .language {
+      transform: translate(0px, 0px);
+      option {
+        font-size: 10px;
+      }
+    }
+  }
+  .menu_hero {
+    flex-direction: column;
+    height: auto;
+
+    .left,
+    .right {
+      width: 100%;
+    }
+
+    .mid {
+      display: none;
+    }
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: -300px; // Start off-screen
+    height: 100vh;
+    width: 300px;
+    background-color: #424141c7;
+    color: #ffffff;
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+
+    &.active {
+      left: 0 !important; // Slide in when active
+    }
+    &-item {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      a {
+        color: #ffffff;
+      }
+    }
+
+    .search {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(23px, -233px);
+
+      &-bar {
+        width: 100%;
+        justify-content: center;
+        input {
+          color: #fffefe;
+          border: #ffffff 1px solid;
+          border-radius: 5px;
+        }
+        button {
+          color: #ffffff;
+          background-color: #000000;
+          padding: 0px 0px 2px 2px;
+          border-radius: 50%;
+        }
+      }
+
+      &-item {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        transform: translate(-25px, 149px);
+        a {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  // Add a hamburger menu icon
+  .menu-icon {
+    display: block;
+    position: fixed;
+    top: 10px;
+    right: 8px;
+    z-index: 1001;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu_hero {
+    max-width: 100%;
+  }
+
+  .navbar {
+    width: 100%;
+    left: -100%;
+  }
+}
+.menu-icon {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 30px;
+    height: 20px;
+    position: relative;
+
+    span {
+      display: block;
+      position: absolute;
+      height: 3px;
+      width: 100%;
+      background: #000;
+      border-radius: 3px;
+      opacity: 1;
+      left: 0;
+      transform: rotate(0deg);
+      transition: 0.25s ease-in-out;
+
+      &:nth-child(1) {
+        top: 0px;
+      }
+
+      &:nth-child(2) {
+        top: 8px;
+      }
+
+      &:nth-child(3) {
+        top: 16px;
+      }
+    }
+  }
+}

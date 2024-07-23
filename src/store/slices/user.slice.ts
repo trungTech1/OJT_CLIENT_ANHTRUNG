@@ -1,42 +1,37 @@
 import api from "@/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-interface User {
-    id: number;
-    name: string;
-    email: string;
-    avatarUrl: string;
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
 }
 
-
-interface UserState {
-    data: User[] | null;
+export interface UserState {
+  data: User[] | null;
 }
 
 const initialState: UserState = {
-    data: null,
+  data: null,
 };
 
-
 const userSlice = createSlice({
-    name: "user",
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(fetchUsers.fulfilled, (state, action) => {
-            state.data = action.payload;
-        });
-    },
+  name: "user",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.data = action.payload;
+    });
+  },
 });
 
-
-const fetchUsers = createAsyncThunk(
-    "user/fetchUsers",
-    async () => {
-        const response = await api.users.getAll();
-        return response.data;
-    }
-);
+const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
+  const response = await api.users.userVerify(localStorage.getItem("token"));
+  console.log("da vaoooo", response);
+  return response.data;
+});
 
 export const userReducer = userSlice.reducer;
 export const userActions = { ...userSlice.actions, fetchUsers };
