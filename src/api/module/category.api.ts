@@ -1,11 +1,12 @@
 import axios from "axios";
 import { CategoryApiInterface } from "@/interface/category.interface";
 
+
 const prefix = '/category';
 const url = import.meta.env.VITE_API_URL
 const categoryApi = {
   getAll: () => {
-    return axios.get(`${url}${prefix}`);
+    return axios.get(`${url}/categories`);
   },
   addCategory: (data: CategoryApiInterface) => {
     return axios.post(`${url}${prefix}/create`, data);

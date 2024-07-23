@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Carousel } from "antd";
+
 import {
   AppstoreOutlined,
   MailOutlined,
@@ -10,7 +11,14 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 export default function Header() {
+  const userStore = useSelector((store: RootState) => {
+    return store.userStore;
+  });
+  console.log("userStore", userStore);
   type MenuItem = Required<MenuProps>["items"][number];
   const items: MenuItem[] = [
     {
@@ -58,16 +66,27 @@ export default function Header() {
         { key: "12", label: "Option 12" },
       ],
     },
-    { key: "5", label: "Option 5" },
-    { key: "6", label: "Option 6" },
-    { key: "5", label: "Option 5" },
-    { key: "6", label: "Option 6" },
+    { key: "13", label: "Option 5" },
+    { key: "14", label: "Option 6" },
+    { key: "15", label: "Option 5" },
+    { key: "16", label: "Option 6" },
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click", e);
   };
+  useEffect(() => {
+    const menuIcon = document.querySelector(".menu-icon");
+    const navbar = document.querySelector(".navbar");
 
+    if (menuIcon && navbar) {
+      menuIcon.addEventListener("click", () => {
+        console.log("Menu icon clicked");
+        navbar.classList.toggle("active");
+        console.log("Navbar classes:", navbar.classList);
+      });
+    }
+  }, []);
   return (
     <>
       <div className="header">
@@ -83,6 +102,11 @@ export default function Header() {
               <option value="VI">Vietnamese</option>
             </select>
           </div>
+        </div>
+        <div className="menu-icon">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
         <div className="navbar">
           <h1>Exclusive</h1>
@@ -114,7 +138,7 @@ export default function Header() {
           <div className="left">
             <Menu
               onClick={onClick}
-              style={{ width: 256 }}
+              style={{ width: 272 }}
               mode="vertical"
               items={items}
             />

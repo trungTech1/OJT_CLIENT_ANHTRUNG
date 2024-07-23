@@ -2,7 +2,7 @@ import { Table } from "react-bootstrap";
 import "./User.scss";
 import { useEffect, useState } from "react";
 import api from "@/api";
-import type { User } from "../../../interface/User";
+import type { User } from "../../interface/User";
 import Pagination from "@mui/material/Pagination";
 
 export default function User() {
