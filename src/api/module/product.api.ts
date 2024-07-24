@@ -15,15 +15,9 @@ const productApi = {
     addProduct: async (data: ProductForm) => {
         return await axios.post(`${URL}${prefix}/create`, data);
     },
-    // updateProduct: (data: any, id: number) => {
-    //     return fetch(`https://fakestoreapi.com/products/${id}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data),
-    //     }).then((res) => res.json());
-    // },
+    updateProduct: async (data: any, id: number) => {
+        return  await axios.put(`${URL}${prefix}/update/${id}`, data);
+    },
     deleteProduct: (id: number) => {
         return axios.delete(`${URL}${prefix}/delete/${id}`);
     },

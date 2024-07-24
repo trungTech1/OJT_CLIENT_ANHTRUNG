@@ -1,7 +1,11 @@
 import api from "@/api";
-import { Color } from "@/interface/product.interface";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+export interface Color {
+    id: number;
+    colorName: string;
+    status: boolean;
+}
 
 export interface colorStage {
     data: Color[] | null;

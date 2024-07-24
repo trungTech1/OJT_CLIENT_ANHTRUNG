@@ -20,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 export const fireBaseFn = {
   uploadToStorage: async (
     file: File,
-    fallBackUrl: string = "https://firebasestorage.googleapis.com/v0/b/shopinufb.appspot.com/o/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg?alt=media&token=a1ec7eae-fbc7-4306-b7ec-bb2e6ad3c91c"
+    fallBackUrl: string = "https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg?alt=media&token=c0edf81b-b54e-40ce-8ec6-a0cf19c72de0"
   ) => {
     try {
       const typeFile = `.${file.type.split("/")[1]}`;

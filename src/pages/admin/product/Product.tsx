@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import "./Product.scss";
 import type { ProductInterface } from "@/interface/product.interface";
 import api from "@/api";
-import DetailModal from "./modal/productDetail";
+// import DetailModal from "./modal/productDetail";
 import { Modal } from "antd";
-import AddModal from "./modal/Add.edit";
+import AddModal from "./modal/Add-editProduct";
 import Add from "./modal/Add";
 
 export default function Product() {
@@ -33,12 +33,13 @@ export default function Product() {
   const [selectedProduct, setSelectedProduct] = useState<ProductInterface>(
     {} as ProductInterface
   );
-  const [showModalDetail, setShowModalDetail] = useState(false);
+  // const [showModalDetail, setShowModalDetail] = useState(false);
 
   useEffect(() => {
     api.products
       .getProducts()
       .then((res) => {
+        console.log("res", res);
         setProducts(res.data);
       })
       .catch((err) => {
@@ -58,13 +59,14 @@ export default function Product() {
     setShowProductModal(true);
   };
 
-  const handleProductDetail = (product: ProductInterface) => {
-    setSelectedProduct(product);
-    setShowModalDetail(true);
-  };
+  // const handleProductDetail = (product: ProductInterface) => {
+  //   setSelectedProduct(product);
+  //   setShowModalDetail(true);
+  // };
   return (
     <div className="product-list">
       <div id="fui-toast"></div>
+      <div className="hea"></div>
       <Add
         show={showAddModal}
         handleClose={() => {
@@ -75,15 +77,15 @@ export default function Product() {
         type={addModalType}
       />
 
-      <DetailModal
+      {/* <DetailModal
         show={showModalDetail}
         handleClose={() => setShowModalDetail(false)}
         product={selectedProduct}
-      />
+      /> */}
       <AddModal
         show={showProductModal}
         handleClose={() => setShowProductModal(false)}
-        mode={modalMode}
+        model={modalMode}
         product={selectedProduct}
         products={Products}
       />
@@ -107,8 +109,10 @@ export default function Product() {
         </div>
       </div>
       <h2>All Products</h2>
-
-      <button
+<div className="header-select">
+  <div className="button-add">
+    
+  <button
         className="btn btn-primary add-product-btn"
         onClick={handleAddProduct}
         style={{ marginRight: "10px" }}
@@ -135,6 +139,15 @@ export default function Product() {
       >
         Add Brand
       </button>
+  </div>
+  <div className="sort-change">
+    <select name="cars" id="cars">
+      <option value="volvo">All</option>
+      <option value="saab">Active</option>
+      <option value="fiat">Inactive</option>
+    </select>
+    </div>
+</div>
       <table>
         <thead>
           <tr>
@@ -145,8 +158,8 @@ export default function Product() {
             <th>Category</th>
             <th>Image</th>
             <th>Created At</th>
-            <th>Product Detail</th>
             <th>Brand</th>
+            <th>Product Detail</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -157,10 +170,10 @@ export default function Product() {
               <td>{product.productName}</td>
               <td>{product.sku}</td>
               <td>{product.status ? "Active" : "Inactive"}</td>
-              <td>{product.category.name}</td>
+              <td>{product.category?.name}</td>
               <td>
                 <img
-                  src={product.image}
+                  src={product.image ? product.image : "https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg?alt=media&token=c0edf81b-b54e-40ce-8ec6-a0cf19c72de0"}
                   alt={product.productName}
                   style={{
                     width: "100px",
@@ -172,11 +185,11 @@ export default function Product() {
               </td>
               <td>{product.created_at?.slice(0, 10)}</td>
 
-              <td>{product.brand.brandName}</td>
+              <td>{product.brand?.brandName}</td>
               <td>
                 <button
                   className="btn btn-primary"
-                  onClick={() => handleProductDetail(product)}
+                  // onClick={() => handleProductDetail(product)}
                 >
                   Detail
                 </button>
