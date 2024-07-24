@@ -32,6 +32,10 @@ export const userApi = {
     return axios.post(`${url}/user/login`, data);
   },
   userVerify: async (token: any) => {
-    return axios.get(`${url}/user/verify`, token);
+    return axios.get(`${url}/user/verify`, {
+      headers: {
+        token: `${token}`,
+      },
+    });
   },
 };

@@ -27,7 +27,7 @@ export default function Login() {
     try {
       // Gọi apis.login.loginApi với loginData
       const response = await api.users.userLogin(loginData);
-      console.log(response);
+      // console.log(response);
       localStorage.setItem("token", response.data.token);
       dispatch(userActions.fetchUsers() as any);
       window.alert(response.data.message);
