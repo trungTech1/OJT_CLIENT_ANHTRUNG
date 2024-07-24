@@ -13,13 +13,13 @@ import api from "@/api";
 const AddModal = ({
   show,
   handleClose,
-  mode,
+  model,
   product,
   products,
 }: {
   show: boolean;
   handleClose: () => void;
-  mode: string;
+  model: string;
   product: ProductInterface;
   products: ProductInterface[];
 }) => {
@@ -31,22 +31,33 @@ const AddModal = ({
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    const imageUrls: string[] = [];
     const imageFiles = formData.getAll("formProductImage") as File[];
-  const imageUrls = await Promise.all(
-    imageFiles.map(file => fireBaseFn.uploadToStorage(file))
-  );
+    const validImageFiles = imageFiles.filter(file => file.size > 0);
+    
+    if (model === "edit" && validImageFiles.length === 0) {
+      imageUrls.push(product.image);
+    } else {
+      for (let i = 0; i < validImageFiles.length; i++) {
+        const imageUrl = await fireBaseFn.uploadToStorage(validImageFiles[i]);
+        imageUrls.push(imageUrl);
+      }
+    }
 
     const data: ProductForm = {
       productName: formData.get("formProductName") as string,
-      sku: Number(formData.get("formProductSku")),
+      //sku có hoặc không
+      sku: formData.get("formProductSku") as string,
       categoryId: Number(formData.get("formProductCategory")),
       description: formData.get("formProductDescrip") as string,
       images: imageUrls,
+
       brandId: Number(formData.get("formProductBrand")),
     };
 
-    if (mode === "add") {
-      await api.products
+    if (model === "add") {
+      console.log("data", data);
+      api.products
         .addProduct(data)
         .then((res) => {
           alert("Product added successfully");
@@ -57,17 +68,27 @@ const AddModal = ({
         .catch((err) => {
           console.log(err);
         });
-    } else if (mode === "edit" && product) {
-      // await api.products.updateProduct(data, product.id);
+    } else if (model === "edit" && product) {
+      api.products.updateProduct(data, product.id).then((res) => {
+        alert("Product updated successfully");
+        //cập nhật lại products
+        const index = products.findIndex((p) => p.id === product.id);
+        products[index] = res.data;
+        handleClose();
+      });
     }
   };
 
   return (
-    <Modal show={show} onHide={handleClose} style={{
-      position: "absolute",
-      top: "50%",
-      left: "50%"
-    }} >
+    <Modal
+      show={show}
+      onHide={handleClose}
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    >
       <Modal.Header
         closeButton
         style={{
@@ -76,7 +97,7 @@ const AddModal = ({
         }}
       >
         <Modal.Title>
-          {mode === "edit" ? "Edit Product" : "Add Product"}
+          {model === "edit" ? "Edit Product" : "Add Product"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -90,7 +111,7 @@ const AddModal = ({
               placeholder="Enter product name"
             />
           </Form.Group>
-          <Form.Group controlId="formProductSku">
+          {/* <Form.Group controlId="formProductSku">
             <Form.Label>SKU</Form.Label>
             <Form.Control
               type="text"
@@ -98,11 +119,22 @@ const AddModal = ({
               defaultValue={product ? product.sku : ""}
               placeholder="Enter SKU"
             />
-          </Form.Group>
+          </Form.Group> */}
+          {model === "add" ? (
+            <Form.Group controlId="formProductSku">
+              <Form.Label>SKU</Form.Label>
+              <Form.Control
+                type="text"
+                name="formProductSku"
+                defaultValue={product ? product.sku : ""}
+                placeholder="Enter SKU"
+              />
+            </Form.Group>
+          ) : null}
           <Form.Group controlId="formProductImage">
             <Form.Label>Images</Form.Label>
-            {mode === "edit" && product.image && (
-                <div>
+            {model === "edit" && product.image && (
+              <div>
                 <img
                   src={product.image}
                   alt={product.productName}
@@ -120,7 +152,13 @@ const AddModal = ({
           </Form.Group>
           <Form.Group controlId="formProductCategory">
             <Form.Label>Category</Form.Label>
-            <Form.Control as="select" name="formProductCategory">
+            <Form.Control
+              as="select"
+              name="formProductCategory"
+              defaultValue={
+                model === "edit" && product.category ? product.category.id : ""
+              }
+            >
               <option value="">Select Category</option>
               {categoryStore?.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -131,7 +169,11 @@ const AddModal = ({
           </Form.Group>
           <Form.Group controlId="formProductBrand">
             <Form.Label>Brand</Form.Label>
-            <Form.Control as="select" name="formProductBrand">
+            <Form.Control as="select" name="formProductBrand"
+              defaultValue={
+                model === "edit" && product.brand ? product.brand.id : ""
+              }
+            >
               <option value="">Select Brand</option>
               {brandStore?.map((brand) => (
                 <option key={brand.id} value={brand.id}>
@@ -147,12 +189,12 @@ const AddModal = ({
               as="textarea"
               name="formProductDescrip"
               rows={3}
-              defaultValue={mode === "edit" ? product.description : ""}
+              defaultValue={model === "edit" ? product.description : ""}
             />
           </Form.Group>
           <Modal.Footer>
             <Button variant="primary" type="submit">
-              {mode === "edit" ? "Update Product" : "Add Product"}
+              {model === "edit" ? "Update Product" : "Add Product"}
             </Button>
           </Modal.Footer>
         </Form>

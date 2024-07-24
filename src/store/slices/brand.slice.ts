@@ -1,8 +1,14 @@
 import api from "@/api";
-import { Brand } from "@/interface/product.interface";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
+export interface Brand {
+    id: number;
+    brandName: string;
+    status: boolean;
+    created_at: string;
+    description : string;
+}
 export interface brandStage {
     data: Brand[] | null;
 

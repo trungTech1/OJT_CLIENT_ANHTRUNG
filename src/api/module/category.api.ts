@@ -1,5 +1,10 @@
 import axios from "axios";
-import { CategoryApiInterface } from "@/interface/category.interface";
+
+export interface CategoryApiInterface {
+  name: string;
+  image: string;
+  description: string;
+}
 
 const prefix = '/category';
 const url = import.meta.env.VITE_API_URL

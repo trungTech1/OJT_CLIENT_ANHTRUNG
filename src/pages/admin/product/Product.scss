@@ -206,7 +206,7 @@ table {
 
 .search-bar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
@@ -310,4 +310,11 @@ table {
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.header-select{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }

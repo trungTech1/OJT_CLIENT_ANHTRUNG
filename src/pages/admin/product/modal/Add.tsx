@@ -88,7 +88,7 @@ const Add: React.FC<AddProps> = ({ show, handleClose, mode, type }: {show: any, 
     }
   };
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} >
       <Modal.Header closeButton>
         <Modal.Title>
           {mode === "add" ? "Add" : "Edit"} {type}

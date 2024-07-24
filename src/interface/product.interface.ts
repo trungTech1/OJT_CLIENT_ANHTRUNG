@@ -1,9 +1,13 @@
-import { Category } from "./category.interface";
+import { Brand } from "@/store/slices/brand.slice";
+import { Category } from "@/store/slices/category.slice";
+import { Color } from "@/store/slices/color.slice";
+import { Config } from "@/store/slices/config.slice";
+
 
 export interface ProductInterface {
     id: number;
     productName: string;
-    sku: number;
+    sku: string;
     status: boolean;
     category: Category;
     description: string;
@@ -26,30 +30,14 @@ export interface ProductDetail {
     config: Config[];
 }
 
-export interface Color {
-    id: number;
-    colorName: string;
-    status: boolean;
-}
 
-export interface Brand {
-    id: number;
-    brandName: string;
-    status: boolean;
-    created_at: string;
-    description : string;
-}
 
-export interface Config {
-    id: number;
-    configName: string;
-    status: boolean;
-}
+
 
 
 export interface ProductForm {
     productName: string;
-    sku: number;
+    sku?: string;
     categoryId: number;
     description: string;
     images : string[];

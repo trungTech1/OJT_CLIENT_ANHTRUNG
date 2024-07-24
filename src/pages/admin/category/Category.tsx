@@ -4,8 +4,8 @@ import "./Category.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import AddModal from "./add/CategoryAdd";
-import { categoryActions} from "@/store/slices/category.slice";
-import type { Category } from "@/interface/category.interface";
+import {categoryActions} from "@/store/slices/category.slice";
+import type { Category } from "@/store/slices/category.slice";
 import api from "@/api";
 import { Modal } from "antd";
 

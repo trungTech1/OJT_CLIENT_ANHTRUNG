@@ -1,7 +1,12 @@
 import api from "@/api";
-import { Config } from "@/interface/product.interface";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+
+export interface Config {
+    id: number;
+    configName: string;
+    status: boolean;
+}
 
 export interface configStage {
     data: Config[] | null;
