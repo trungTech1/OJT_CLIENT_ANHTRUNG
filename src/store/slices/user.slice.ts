@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export interface User {
   id: number;
-  name: string;
+  username: string;
   email: string;
   avatar: string;
 }
@@ -29,7 +29,7 @@ const userSlice = createSlice({
 
 const fetchUsers = createAsyncThunk("user/fetchUsers", async () => {
   const response = await api.users.userVerify(localStorage.getItem("token"));
-  console.log("da vaoooo", response);
+  // console.log("da vaoooo", response);
   return response.data;
 });
 

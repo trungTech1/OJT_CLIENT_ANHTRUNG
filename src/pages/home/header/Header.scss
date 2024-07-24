@@ -61,10 +61,11 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      margin-left: 5px;
+      margin-left: 8px;
       a {
         text-decoration: none;
         color: rgb(23, 20, 20);
+        margin-left: 4px;
       }
     }
   }
@@ -236,8 +237,10 @@
         justify-content: center;
         margin-top: 10px;
         transform: translate(-25px, 149px);
+
         a {
           color: #ffffff;
+          padding-left: 10px;
         }
       }
     }
