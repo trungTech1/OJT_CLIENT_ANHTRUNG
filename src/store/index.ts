@@ -1,17 +1,20 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { categoryActions, categoryReducer } from "./slices/category.slice";
-import { userReducer } from "./slices/user.slice";
 import { brandActions, brandReducer } from "./slices/brand.slice";
 import { configActions, configReducer } from "./slices/config.slice";
 import { colorActions, colorReducer } from "./slices/color.slice";
+import { userReducer } from "./slices/user.slice";
+
+
 
 const rootReducer = combineReducers({
-  category: categoryReducer,
-  userStore: userReducer,
-  brand: brandReducer,
-  config: configReducer,
-  color: colorReducer,
-});
+    category: categoryReducer,
+    brand: brandReducer,
+    config: configReducer,
+    color: colorReducer,
+    user : userReducer,
+  });
+  
 
 export type RootState = ReturnType<typeof rootReducer>;
 
