@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import api from "@/api";
 import type { User } from "../../interface/User";
 import Pagination from "@mui/material/Pagination";
+import { formatDate, parseDate } from "@/utils/formatDate";
 
 export default function User() {
   //hien thi danh sach user
@@ -90,6 +91,7 @@ export default function User() {
         console.log("error", error);
       });
   };
+
   return (
     <div className="user_container">
       <select onChange={handleChange}>
@@ -115,7 +117,7 @@ export default function User() {
             <th>Email</th>
             <th>Phone</th>
             <th>Avatar</th>
-            <th>Role</th>
+            {/* <th>Role</th> */}
             <th>Status</th>
             <th>createAt</th>
             <th>updateAt</th>
@@ -140,11 +142,13 @@ export default function User() {
                   }}
                 />
               </td>
-              <td>{user.roles[0].roleName}</td>
+              {/* <td>{user.roles[0].roleName}</td> */}
               <td>{user.status ? "Active" : "Inactive"}</td>
 
-              <td>{new Date(user.created_at).toLocaleDateString("en-GB")}</td>
-              <td>{new Date(user.updated_at).toLocaleDateString("en-GB")}</td>
+              <td>
+                <td>{formatDate(parseDate(user.created_at))}</td>
+              </td>
+              <td>{formatDate(parseDate(user.updated_at))}</td>
               <td>
                 <button>Manager</button>
               </td>

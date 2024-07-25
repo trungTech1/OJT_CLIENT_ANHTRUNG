@@ -46,6 +46,12 @@ const RouterSetup = () => {
             element={lazyFn(() => import("@pages/admin/banner/Banner"))}
           ></Route>
         </Route>
+        <Route
+          path="changeInfo"
+          element={lazyFnDelay(
+            () => import("@pages/home/change-information/ChangeInfo")
+          )}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
