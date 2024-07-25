@@ -41,6 +41,7 @@ const AddDetail = ({
         const index = products.findIndex((p) => p.id === product.id);
         products[index].productDetails.push(res.data);
         alert("Product detail added successfully");
+        handleClose();
         }
         );
     } else {

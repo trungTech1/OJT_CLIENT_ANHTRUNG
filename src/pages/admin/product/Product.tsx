@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Product.scss";
 import type { ProductInterface } from "@/interface/product.interface";
 import api from "@/api";
@@ -6,7 +6,8 @@ import DetailModal from "./modal/productDetail";
 import { Modal } from "antd";
 import AddModal from "./modal/Add-editProduct";
 import Add from "./modal/Add";
-import AddDetail  from "./modal/AddDetail";
+import AddDetail from "./modal/AddDetail";
+import { debounce } from 'lodash';
 
 export default function Product() {
   const [Products, setProducts] = useState<ProductInterface[]>([]);
@@ -16,12 +17,53 @@ export default function Product() {
   const [addModalType, setAddModalType] = useState<
     "color" | "config" | "brand" | ""
   >("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
 
-const [showAddDetailModal, setShowAddDetailModal] = useState(false);
+  const [showAddDetailModal, setShowAddDetailModal] = useState(false);
 
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterStatus(e.target.value);
+  };
+
+
+  const filteredProducts = Products.filter((product) => {
+    const matchesStatus =
+      filterStatus === "all" ||
+      (filterStatus === "active" && product.status) ||
+      (filterStatus === "inactive" && !product.status);
+
+    const matchesSearch = product.productName
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesStatus && matchesSearch;
+  });
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
   const handleAddColor = () => {
     setAddModalType("color");
     setShowAddModal(true);
+  };
+  const debouncedSearch = useCallback(
+    debounce((term: string) => {
+      setSearchTerm(term);
+      setCurrentPage(1);
+    }, 300),
+    []
+  );
+  const handleSearch = () => {
+    setCurrentPage(1); // Reset về trang đầu tiên khi tìm kiếm
+  };
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
   };
 
   const handleAddConfig = () => {
@@ -42,7 +84,6 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
     api.products
       .getProducts()
       .then((res) => {
-
         setProducts(res.data);
       })
       .catch((err) => {
@@ -63,21 +104,19 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
   };
 
   const handleProductDetail = (product: ProductInterface) => {
-    
-    if(product.productDetails != null && product.productDetails.length <= 0){
+    if (product.productDetails != null && product.productDetails.length <= 0) {
       Modal.error({
         title: "Product Detail",
         content: `Product ${product.productName} khong co detail ban vui long them detail`,
-      onOk() {
-        setSelectedProduct(product);
-        setShowAddDetailModal(true);
-      }
+        onOk() {
+          setSelectedProduct(product);
+          setShowAddDetailModal(true);
+        },
       });
       return;
     }
     setSelectedProduct(product);
     setShowModalDetail(true);
-
   };
   return (
     <div className="product-list">
@@ -92,7 +131,7 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
         mode="add"
         type={addModalType}
       />
-   <AddDetail
+      <AddDetail
         show={showAddDetailModal}
         handleClose={() => {
           setShowAddDetailModal(false);
@@ -117,7 +156,12 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
       <div className="search-bar">
         <h1>Product</h1>
         <div>
-          <input type="text" placeholder="Search for product" />
+          <input
+            type="text"
+            placeholder="Search for product"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
           <button
             style={{
               marginLeft: "10px",
@@ -128,51 +172,56 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
               borderRadius: "5px",
               height: "40px",
             }}
+            onClick={handleSearch}
           >
             Tìm kiếm
           </button>
         </div>
       </div>
       <h2>All Products</h2>
-<div className="header-select">
-  <div className="button-add">
-    
-  <button
-        className="btn btn-primary add-product-btn"
-        onClick={handleAddProduct}
-        style={{ marginRight: "10px" }}
-      >
-        Add Product
-      </button>
-      <button
-        className="btn btn-primary add-product-btn"
-        onClick={handleAddColor}
-        style={{ marginRight: "10px" }}
-      >
-        Add Color
-      </button>
-      <button
-        className="btn btn-primary add-product-btn"
-        onClick={handleAddConfig}
-        style={{ marginRight: "10px" }}
-      >
-        Add Config
-      </button>
-      <button
-        className="btn btn-primary add-product-btn"
-        onClick={handleAddBrand}
-      >
-        Add Brand
-      </button>
-  </div>
-  <div className="sort-change">
-    <select name="cars" id="cars">
-      <option value="volvo">All</option>
-      <option value="saab">Active</option>
-      <option value="fiat">Inactive</option>
-    </select>
-    </div>
-</div>
+      <div className="header-select">
+        <div className="button-add">
+          <button
+            className="btn btn-primary add-product-btn"
+            onClick={handleAddProduct}
+            style={{ marginRight: "10px" }}
+          >
+            Add Product
+          </button>
+          <button
+            className="btn btn-primary add-product-btn"
+            onClick={handleAddColor}
+            style={{ marginRight: "10px" }}
+          >
+            Add Color
+          </button>
+          <button
+            className="btn btn-primary add-product-btn"
+            onClick={handleAddConfig}
+            style={{ marginRight: "10px" }}
+          >
+            Add Config
+          </button>
+          <button
+            className="btn btn-primary add-product-btn"
+            onClick={handleAddBrand}
+          >
+            Add Brand
+          </button>
+        </div>
+        <div className="sort-change">
+          <select
+            name="cars"
+            id="cars"
+            value={filterStatus}
+            onChange={handleFilterChange}
+          >
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
       <table>
         <thead>
           <tr>
@@ -189,16 +238,24 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
           </tr>
         </thead>
         <tbody>
-          {Products?.map((product, index) => (
+        {currentProducts.length === 0 ? (
+    <tr>
+      <td colSpan={10} style={{ textAlign: "center" }}>Không tìm thấy sản phẩm nào</td>
+    </tr>
+  ) : (currentProducts?.map((product, index) => (
             <tr key={product.id}>
-              <td>{index + 1}</td>
+              <td>{(currentPage - 1) * productsPerPage + index + 1}</td>
               <td>{product.productName}</td>
               <td>{product.sku}</td>
-              <td>{product.status ? "Active" : "Inactive"}</td>
+              <td>{product.status ? "Còn bán" : "Hết bán"}</td>
               <td>{product.category?.name}</td>
               <td>
                 <img
-                  src={product.image ? product.image : "https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg?alt=media&token=c0edf81b-b54e-40ce-8ec6-a0cf19c72de0"}
+                  src={
+                    product.image
+                      ? product.image
+                      : "https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg?alt=media&token=c0edf81b-b54e-40ce-8ec6-a0cf19c72de0"
+                  }
                   alt={product.productName}
                   style={{
                     width: "100px",
@@ -257,17 +314,40 @@ const [showAddDetailModal, setShowAddDetailModal] = useState(false);
                 </button>
               </td>
             </tr>
-          ))}
+          )))}
         </tbody>
       </table>
       <div
         style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
       >
-        <button>Prev</button>
-        <button>1</button>
-        <button>2</button>
-        <button>Next</button>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+        {Array.from({ length: pageCount }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            style={{
+              fontWeight: currentPage === i + 1 ? "bold" : "normal",
+              margin: "0 5px",
+            }}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, pageCount))
+          }
+          disabled={currentPage === pageCount}
+        >
+          Next
+        </button>
       </div>
     </div>
+        
   );
 }

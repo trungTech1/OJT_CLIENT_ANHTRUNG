@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductInterface } from "@/interface/product.interface";
 import { Modal, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import type { ProductDetail } from "@/interface/product.interface";
 
-const productDetail = ({
+const ProductDetail = ({
   show,
   handleClose,
   product,
@@ -10,6 +13,22 @@ const productDetail = ({
   handleClose: () => void;
   product: ProductInterface;
 }) => {
+  const [selectedDetail, setSelectedDetail] = useState<ProductDetail | undefined>(product?.productDetails?.[0]);
+
+  useEffect(() => {
+    if (product?.productDetails?.length > 0) {
+      setSelectedDetail(product.productDetails[0]);
+    }
+  }, [product]);
+
+  const handleDetailChange =(e: any) => {
+    const selectedName = e.target.value;
+    const detail = product.productDetails.find(
+      (d) => d.productDetailName === selectedName
+    );
+    setSelectedDetail(detail);
+  };
+
   return (
     <>
       {product?.productDetails != null && product.productDetails.length > 0 ? (
@@ -33,26 +52,28 @@ const productDetail = ({
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group controlId="formProductName">
-                <Form.Label>Product Name</Form.Label>
+              <Form.Group controlId="formProductDetailName">
+                <Form.Label>Product Detail Name</Form.Label>
                 <Form.Control
-                  type="text"
-                  name="formProductName"
-                  defaultValue={product ? product.productName : ""}
-                  readOnly
-                />
+                  as="select"
+                  name="formProductDetailName"
+                  onChange={handleDetailChange}
+                  value={selectedDetail?.productDetailName || ""}
+                >
+                  {product.productDetails.map((detail, index) => (
+                    <option key={index} value={detail.productDetailName}>
+                      {detail.productDetailName}
+                    </option>
+                  ))}
+                </Form.Control>
               </Form.Group>
               <Form.Group controlId="formProductStock">
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
                   type="text"
                   name="formProductStock"
-                  defaultValue={
-                    product && product.productDetails
-                      ? product.productDetails[0].stock
-                      : ""
-                  }
-                  placeholder="Enter stock"
+                  value={selectedDetail?.stock || ""}
+                  readOnly
                 />
               </Form.Group>
               <Form.Group controlId="formProductPrice">
@@ -61,11 +82,7 @@ const productDetail = ({
                   type="text"
                   name="formProductPrice"
                   readOnly
-                  defaultValue={
-                    product && product.productDetails
-                      ? product.productDetails[0].unitPrice
-                      : ""
-                  }
+                  value={selectedDetail?.unitPrice || ""}
                 />
               </Form.Group>
               <Form.Group controlId="formProductImage">
@@ -89,26 +106,18 @@ const productDetail = ({
                   type="text"
                   name="formProductColor"
                   readOnly
-                  defaultValue={
-                    product && product.productDetails
-                      ? product.productDetails[0]?.color?.colorName
-                      : ""
-                  }
+                  value={selectedDetail?.color?.colorName || ""}
                 />
               </Form.Group>
-                <Form.Group controlId="formProductConfig">
-                    <Form.Label>Config</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="formProductConfig"
-                    readOnly
-                    defaultValue={
-                        product && product.productDetails
-                        ? product.productDetails[0]?.config?.configName
-                        : ""
-                    }
-                    />
-                </Form.Group>
+              <Form.Group controlId="formProductConfig">
+                <Form.Label>Config</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="formProductConfig"
+                  readOnly
+                  value={selectedDetail?.config?.configName || ""}
+                />
+              </Form.Group>
             </Form>
           </Modal.Body>
         </Modal>
@@ -126,4 +135,4 @@ const productDetail = ({
   );
 };
 
-export default productDetail;
+export default ProductDetail;
