@@ -13,16 +13,13 @@ const productApi = {
         filterStatus?: string,
     ) => {
         if (search) {
-            return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}&search=${search}`);
+            return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}&search=${search}&filterStatus=${filterStatus}`);
         }
         if (filterStatus) {
             return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}&filterStatus=${filterStatus}`);
         }
         return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}`);
     },
-    // getProduct: (id: number) => {
-    //     return fetch(`https://fakestoreapi.com/products/${id}`).then((res) => res.json());
-    // },
     addProduct: async (data: ProductForm) => {
         return await axios.post(`${URL}${prefix}/create`, data);
     },
