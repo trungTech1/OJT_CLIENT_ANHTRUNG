@@ -6,8 +6,19 @@ import axios from "axios";
 const prefix = '/product';
 const URL = import.meta.env.VITE_API_URL;
 const productApi = {
-    getProducts: async () => {
-        return await axios.get(`${URL}${prefix}`);
+    getProducts: async (
+        page: number,
+        size: number,
+        search?: string,
+        filterStatus?: string,
+    ) => {
+        if (search) {
+            return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}&search=${search}`);
+        }
+        if (filterStatus) {
+            return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}&filterStatus=${filterStatus}`);
+        }
+        return await axios.get(`${URL}${prefix}?page=${page}&limit=${size}`);
     },
     // getProduct: (id: number) => {
     //     return fetch(`https://fakestoreapi.com/products/${id}`).then((res) => res.json());
