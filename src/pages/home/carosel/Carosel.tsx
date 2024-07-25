@@ -7,8 +7,10 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Carosel.scss";
+import api from "@/api";
+import { Banner } from "@/interface/banner.interface";
 export default function Carosel() {
   type MenuItem = Required<MenuProps>["items"][number];
   const items: MenuItem[] = [
@@ -78,6 +80,17 @@ export default function Carosel() {
       });
     }
   }, []);
+  const [banners, setBanners] = useState<Banner[]>([]);
+  useEffect(() => {
+    api.banner
+      .findAllByStatus()
+      .then((res) => {
+        setBanners(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div>
       <div className="menu_hero">
@@ -92,34 +105,15 @@ export default function Carosel() {
         <div className="mid"></div>
         <div className="right">
           <Carousel autoplay>
-            <div>
-              <img
-                src="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/oppo-reno12-banner-sliding-5-7-2024.jpg"
-                className="contentStyle"
-                alt=""
-              />
-            </div>
-            <div>
-              <img
-                src="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/pre-galaxy-z6-690-300-update-1907.png"
-                className="contentStyle"
-                alt=""
-              />
-            </div>
-            <div>
-              <img
-                src="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/nang-cap-iphone-15-compatibility.jpg"
-                className="contentStyle"
-                alt=""
-              />
-            </div>
-            <div>
-              <img
-                src="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/poco-m6-sliding-cate-27-6-2024.jpg"
-                className="contentStyle"
-                alt=""
-              />
-            </div>
+            {banners.map((banner) => (
+              <div key={banner.id}>
+                <img
+                  src={banner.image}
+                  alt={banner.bannerName}
+                  style={{ width: "100%", height: "345px" }}
+                />
+              </div>
+            ))}
           </Carousel>
         </div>
       </div>
