@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import "./Product.scss";
 import type { ProductInterface } from "@/interface/product.interface";
 import api from "@/api";
-// import DetailModal from "./modal/productDetail";
+import DetailModal from "./modal/productDetail";
 import { Modal } from "antd";
 import AddModal from "./modal/Add-editProduct";
 import Add from "./modal/Add";
+import AddDetail  from "./modal/AddDetail";
 
 export default function Product() {
   const [Products, setProducts] = useState<ProductInterface[]>([]);
@@ -15,6 +16,8 @@ export default function Product() {
   const [addModalType, setAddModalType] = useState<
     "color" | "config" | "brand" | ""
   >("");
+
+const [showAddDetailModal, setShowAddDetailModal] = useState(false);
 
   const handleAddColor = () => {
     setAddModalType("color");
@@ -33,13 +36,13 @@ export default function Product() {
   const [selectedProduct, setSelectedProduct] = useState<ProductInterface>(
     {} as ProductInterface
   );
-  // const [showModalDetail, setShowModalDetail] = useState(false);
+  const [showModalDetail, setShowModalDetail] = useState(false);
 
   useEffect(() => {
     api.products
       .getProducts()
       .then((res) => {
-        console.log("res", res);
+
         setProducts(res.data);
       })
       .catch((err) => {
@@ -59,10 +62,23 @@ export default function Product() {
     setShowProductModal(true);
   };
 
-  // const handleProductDetail = (product: ProductInterface) => {
-  //   setSelectedProduct(product);
-  //   setShowModalDetail(true);
-  // };
+  const handleProductDetail = (product: ProductInterface) => {
+    
+    if(product.productDetails != null && product.productDetails.length <= 0){
+      Modal.error({
+        title: "Product Detail",
+        content: `Product ${product.productName} khong co detail ban vui long them detail`,
+      onOk() {
+        setSelectedProduct(product);
+        setShowAddDetailModal(true);
+      }
+      });
+      return;
+    }
+    setSelectedProduct(product);
+    setShowModalDetail(true);
+
+  };
   return (
     <div className="product-list">
       <div id="fui-toast"></div>
@@ -76,12 +92,21 @@ export default function Product() {
         mode="add"
         type={addModalType}
       />
-
-      {/* <DetailModal
+   <AddDetail
+        show={showAddDetailModal}
+        handleClose={() => {
+          setShowAddDetailModal(false);
+          setAddModalType("");
+        }}
+        mode="add"
+        product={selectedProduct}
+        products={Products}
+      />
+      <DetailModal
         show={showModalDetail}
         handleClose={() => setShowModalDetail(false)}
         product={selectedProduct}
-      /> */}
+      />
       <AddModal
         show={showProductModal}
         handleClose={() => setShowProductModal(false)}
@@ -189,7 +214,7 @@ export default function Product() {
               <td>
                 <button
                   className="btn btn-primary"
-                  // onClick={() => handleProductDetail(product)}
+                  onClick={() => handleProductDetail(product)}
                 >
                   Detail
                 </button>

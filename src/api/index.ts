@@ -4,6 +4,8 @@ import  productApi  from "./module/product.api";
 import colorApi from "./module/color.api";
 import brandApi from "./module/brand.api";
 import ConfigApi from "./module/config.api";
+import { productDetailApi } from "./module/productDetail.api";
+
 
 export default {
     categories: categoryApi,
@@ -11,5 +13,6 @@ export default {
     products: productApi,
     colors: colorApi,
     brands: brandApi,
-    configs: ConfigApi
+    configs: ConfigApi,
+    productDetail : productDetailApi
 }

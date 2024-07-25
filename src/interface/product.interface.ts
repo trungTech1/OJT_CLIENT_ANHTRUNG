@@ -2,6 +2,7 @@ import { Brand } from "@/store/slices/brand.slice";
 import { Category } from "@/store/slices/category.slice";
 import { Color } from "@/store/slices/color.slice";
 import { Config } from "@/store/slices/config.slice";
+import { CardConfig } from "antd/es/config-provider/context";
 
 
 export interface ProductInterface {
@@ -27,9 +28,17 @@ export interface ProductDetail {
     status: boolean;
     image: string;
     color: Color;
-    config: Config[];
+    config: Config;
 }
 
+
+export interface ProductDetailForm {
+    productDetailName: string;
+    stock: number;
+    unitPrice: number;
+    colorId: number;
+    configId: number;
+}
 
 
 

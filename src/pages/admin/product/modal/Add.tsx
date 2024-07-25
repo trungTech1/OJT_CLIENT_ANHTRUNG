@@ -5,6 +5,8 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { fireBaseFn } from "@/firebase/firebase";
 import { useDispatch } from "react-redux";
 import { colorActions } from "@/store/slices/color.slice";
+import { configActions } from "@/store/slices/config.slice";
+import { brandActions } from "@/store/slices/brand.slice";
 
 interface AddProps {
   show: boolean;
@@ -58,7 +60,7 @@ const Add: React.FC<AddProps> = ({ show, handleClose, mode, type }: {show: any, 
               .addConfig(data)
               .then(() => {
                 alert("Config added successfully");
-                dispatch(colorActions.fetchColors() as any);
+                dispatch(configActions.fetchConfigs() as any);
               })
               .catch((err) => {
                 console.log(err);
@@ -69,7 +71,7 @@ const Add: React.FC<AddProps> = ({ show, handleClose, mode, type }: {show: any, 
               .addBrand(data)
               .then(() => {
                 alert("Brand added successfully");
-                dispatch(colorActions.fetchColors() as any);
+                dispatch(brandActions.fetchBrands() as any);
               })
               .catch((err) => {
                 console.log(err);
@@ -88,7 +90,11 @@ const Add: React.FC<AddProps> = ({ show, handleClose, mode, type }: {show: any, 
     }
   };
   return (
-    <Modal show={show} onHide={handleClose} >
+    <Modal show={show} onHide={handleClose}  style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+    }} >
       <Modal.Header closeButton>
         <Modal.Title>
           {mode === "add" ? "Add" : "Edit"} {type}

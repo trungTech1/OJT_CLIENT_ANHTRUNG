@@ -51,12 +51,10 @@ const AddModal = ({
       categoryId: Number(formData.get("formProductCategory")),
       description: formData.get("formProductDescrip") as string,
       images: imageUrls,
-
       brandId: Number(formData.get("formProductBrand")),
     };
 
     if (model === "add") {
-      console.log("data", data);
       api.products
         .addProduct(data)
         .then((res) => {
