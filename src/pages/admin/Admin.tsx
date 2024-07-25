@@ -7,6 +7,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
+  LayoutOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
@@ -34,6 +35,11 @@ const items: MenuItem[] = [
     key: "4",
     icon: <UnorderedListOutlined />,
     label: <Link to={"/admin/order"}>Order</Link>,
+  },
+  {
+    key: "5",
+    icon: <LayoutOutlined />,
+    label: <Link to={"/admin/banner"}>Brand</Link>,
   },
 ];
 

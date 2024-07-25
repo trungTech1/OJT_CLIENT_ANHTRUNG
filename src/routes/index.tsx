@@ -41,6 +41,10 @@ const RouterSetup = () => {
             path="order"
             element={lazyFn(() => import("@pages/admin/order/Order"))}
           ></Route>
+          <Route
+            path="banner"
+            element={lazyFn(() => import("@pages/admin/banner/Banner"))}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>
