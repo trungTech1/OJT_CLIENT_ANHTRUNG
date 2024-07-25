@@ -50,7 +50,6 @@ const fetchConfigs = createAsyncThunk(
     "config/fetchConfigs",
     async () => {
         const response = await api.configs.getAll();
-        console.log("response", response);
         return response.data;
     }
 );

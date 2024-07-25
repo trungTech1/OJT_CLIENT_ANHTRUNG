@@ -9,7 +9,6 @@ const brandApi = {
         return await axios.get(`${url}${prefix}`);
     },
     addBrand: async (data: any) => {
-        console.log("data", data);
         return await axios.post(`${url}${prefix}/create`, data);
     },
     updateBrand: async (data: any, id: number) => {

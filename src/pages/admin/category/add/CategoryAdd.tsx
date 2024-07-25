@@ -47,7 +47,7 @@ const AddModal = ({ show,handleClose, mode,category,}: {show: boolean; handleClo
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} >
       <Modal.Header
         closeButton
         style={{
