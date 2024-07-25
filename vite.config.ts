@@ -13,7 +13,7 @@ export default defineConfig({
       "@pages": `${path.resolve(__dirname, "./src/pages/")}`,
       "@store": `${path.resolve(__dirname, "./src/store/")}`,
       "@api": `${path.resolve(__dirname, "./src/api/")}`,
-     
+      "@utils": `${path.resolve(__dirname, "./src/utils/")}`,
     },
   },
   /* Config Global Scss Variable */
