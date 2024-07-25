@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ProductForm } from "@/interface/product.interface";
+import {  ProductForm } from "@/interface/product.interface";
 import axios from "axios";
 
 
