@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import "./Product.scss";
 import type { ProductInterface } from "@/interface/product.interface";
@@ -7,60 +8,59 @@ import { Modal } from "antd";
 import AddModal from "./modal/Add-editProduct";
 import Add from "./modal/Add";
 import AddDetail from "./modal/AddDetail";
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 export default function Product() {
-  const [Products, setProducts] = useState<ProductInterface[]>([]);
+  const [products, setProducts] = useState<ProductInterface[]>([]);
   const [showProductModal, setShowProductModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [modalMode, setModalMode] = useState("add");
+  const [showAddDetailModal, setShowAddDetailModal] = useState(false);
   const [addModalType, setAddModalType] = useState<
     "color" | "config" | "brand" | ""
   >("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [totalProducts, setTotalProducts] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
 
-  const [showAddDetailModal, setShowAddDetailModal] = useState(false);
+  const fetchProducts = async (page: number, limit: number,searchTerm :string, filterStatus:string ) => {
+    try {
+      console.log("fetching", page, limit,searchTerm, filterStatus);
+      const response = await api.products.getProducts(page - 1, limit, searchTerm, filterStatus);
+      setProducts(response.data.products);
+      setTotalProducts(response.data.totalProducts);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchProducts(currentPage, productsPerPage, searchTerm, filterStatus);
+  }, [currentPage, productsPerPage, searchTerm, filterStatus]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterStatus(e.target.value);
+    console.log("da vao");
+    const newStatus = e.target.value;
+    setFilterStatus(newStatus);
+    setCurrentPage(1);
+    fetchProducts(1, productsPerPage, searchTerm, newStatus);
+  };
+  const pageCount = Math.ceil(totalProducts / productsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
-
-  const filteredProducts = Products.filter((product) => {
-    const matchesStatus =
-      filterStatus === "all" ||
-      (filterStatus === "active" && product.status) ||
-      (filterStatus === "inactive" && !product.status);
-
-    const matchesSearch = product.productName
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-
-    return matchesStatus && matchesSearch;
-  });
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-  const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
-  const handleAddColor = () => {
-    setAddModalType("color");
-    setShowAddModal(true);
-  };
   const debouncedSearch = useCallback(
-    debounce((term: string) => {
-      setSearchTerm(term);
-      setCurrentPage(1);
-    }, 300),
-    []
+    debounce((nextValue: string) => {
+      setSearchTerm(nextValue);
+    }, 500),
+    [ setSearchTerm]
   );
   const handleSearch = () => {
-    setCurrentPage(1); // Reset về trang đầu tiên khi tìm kiếm
+    setCurrentPage(1);
+    fetchProducts(1, productsPerPage, searchTerm, filterStatus);
   };
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     debouncedSearch(e.target.value);
@@ -75,21 +75,15 @@ export default function Product() {
     setAddModalType("brand");
     setShowAddModal(true);
   };
+
+  const handleAddColor = () => {
+    setAddModalType("color");
+    setShowAddModal(true);
+  };
   const [selectedProduct, setSelectedProduct] = useState<ProductInterface>(
     {} as ProductInterface
   );
   const [showModalDetail, setShowModalDetail] = useState(false);
-
-  useEffect(() => {
-    api.products
-      .getProducts()
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   const handleAddProduct = () => {
     setModalMode("add");
@@ -139,7 +133,7 @@ export default function Product() {
         }}
         mode="add"
         product={selectedProduct}
-        products={Products}
+        products={products}
       />
       <DetailModal
         show={showModalDetail}
@@ -151,7 +145,7 @@ export default function Product() {
         handleClose={() => setShowProductModal(false)}
         model={modalMode}
         product={selectedProduct}
-        products={Products}
+        products={products}
       />
       <div className="search-bar">
         <h1>Product</h1>
@@ -238,90 +232,92 @@ export default function Product() {
           </tr>
         </thead>
         <tbody>
-        {currentProducts.length === 0 ? (
-    <tr>
-      <td colSpan={10} style={{ textAlign: "center" }}>Không tìm thấy sản phẩm nào</td>
-    </tr>
-  ) : (currentProducts?.map((product, index) => (
-            <tr key={product.id}>
-              <td>{(currentPage - 1) * productsPerPage + index + 1}</td>
-              <td>{product.productName}</td>
-              <td>{product.sku}</td>
-              <td>{product.status ? "Còn bán" : "Hết bán"}</td>
-              <td>{product.category?.name}</td>
-              <td>
-                <img
-                  src={
-                    product.image
-                      ? product.image
-                      : "https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg?alt=media&token=c0edf81b-b54e-40ce-8ec6-a0cf19c72de0"
-                  }
-                  alt={product.productName}
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                    borderRadius: "5px",
-                  }}
-                />
-              </td>
-              <td>{product.created_at?.slice(0, 10)}</td>
-
-              <td>{product.brand?.brandName}</td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => handleProductDetail(product)}
-                >
-                  Detail
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => handleEditProduct(product)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => {
-                    Modal.confirm({
-                      title: "Delete Product",
-                      content: `Bạn có chắc chắn muốn xóa ${product.productName}?`,
-                      onOk() {
-                        api.products
-                          .deleteProduct(product.id)
-                          .then(() => {
-                            //reset lại state
-                            api.products
-                              .getProducts()
-                              .then((res) => {
-                                setProducts(res.data);
-                              })
-                              .catch((err) => {
-                                console.log(err);
-                              });
-                          })
-                          .catch((err) => {
-                            console.log(err);
-                          });
-                      },
-                    });
-                  }}
-                >
-                  Delete
-                </button>
+          {products.length === 0 ? (
+            <tr>
+              <td colSpan={10} style={{ textAlign: "center" }}>
+                Không tìm thấy sản phẩm nào
               </td>
             </tr>
-          )))}
+          ) : (
+            products.map((product, index) => (
+              <tr key={product.id}>
+                <td>{(currentPage - 1) * productsPerPage + index + 1}</td>
+                <td>{product.productName}</td>
+                <td>{product.sku}</td>
+                <td>{product.status ? "Còn bán" : "Hết bán"}</td>
+                <td>{product.category?.name}</td>
+                <td>
+                  <img
+                    src={
+                      product.image
+                        ? product.image
+                        : "https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/depositphotos_227724992-stock-illustration-image-available-icon-flat-vector.jpg?alt=media&token=c0edf81b-b54e-40ce-8ec6-a0cf19c72de0"
+                    }
+                    alt={product.productName}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      borderRadius: "5px",
+                    }}
+                  />
+                </td>
+                <td>{product.created_at?.slice(0, 10)}</td>
+
+                <td>{product.brand?.brandName}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleProductDetail(product)}
+                  >
+                    Detail
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleEditProduct(product)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      Modal.confirm({
+                        title: "Delete Product",
+                        content: `Bạn có chắc chắn muốn xóa ${product.productName}?`,
+                        onOk() {
+                          api.products
+                            .deleteProduct(product.id)
+                            .then(() => {
+                              //reset lại state
+                              fetchProducts(
+                                currentPage,
+                                productsPerPage,
+                                searchTerm,
+                                filterStatus
+                              );
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        },
+                      });
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
       <div
         style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
       >
         <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
           Prev
@@ -329,7 +325,7 @@ export default function Product() {
         {Array.from({ length: pageCount }, (_, i) => (
           <button
             key={i}
-            onClick={() => setCurrentPage(i + 1)}
+            onClick={() => handlePageChange(i + 1)}
             style={{
               fontWeight: currentPage === i + 1 ? "bold" : "normal",
               margin: "0 5px",
@@ -339,15 +335,12 @@ export default function Product() {
           </button>
         ))}
         <button
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, pageCount))
-          }
+          onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === pageCount}
         >
           Next
         </button>
       </div>
     </div>
-        
   );
 }
