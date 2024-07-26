@@ -1,0 +1,112 @@
+.contact-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  nav {
+    margin-bottom: 100px;
+
+    a {
+      color: #000;
+      text-decoration: none;
+    }
+
+    span {
+      color: #666;
+    }
+  }
+
+  .contact-content {
+    display: flex;
+    gap: 40px;
+
+    .contact-info {
+      flex: 1;
+
+      .contact-method {
+        margin-bottom: 30px;
+        .contact_phone_icon {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+        .contact_method_icon {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+        .icon {
+          width: 40px;
+          height: 40px;
+          background-color: #db4444;
+          border-radius: 50%;
+          margin-bottom: 15px;
+        }
+
+        h3 {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+
+        p {
+          color: #666;
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    .contact-form {
+      flex: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      textarea {
+        width: calc(33.33% - 14px);
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 16px;
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+      input {
+        width: calc(33.33% - 14px);
+        height: 50px;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 16px;
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+
+      textarea {
+        width: 100%;
+        resize: vertical;
+      }
+
+      button {
+        width: 180px;
+        height: 50px;
+        padding: 12px;
+        background-color: #db4444;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        transform: translate(566px, 10px);
+
+        &:hover {
+          background-color: darken(#db4444, 10%);
+        }
+      }
+    }
+  }
+}
