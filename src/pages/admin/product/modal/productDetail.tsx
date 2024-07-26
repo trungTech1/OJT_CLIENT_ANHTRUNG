@@ -1,19 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductInterface } from "@/interface/product.interface";
-import { Modal, Form } from "react-bootstrap";
+import { Modal, Form, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import type { ProductDetail } from "@/interface/product.interface";
 
 const ProductDetail = ({
+  handleShowAddDetail,
   show,
   handleClose,
   product,
 }: {
+  handleShowAddDetail: () => void;
+  showAdd: boolean;
   show: boolean;
   handleClose: () => void;
   product: ProductInterface;
 }) => {
-  const [selectedDetail, setSelectedDetail] = useState<ProductDetail | undefined>(product?.productDetails?.[0]);
+  const [selectedDetail, setSelectedDetail] = useState<
+    ProductDetail | undefined
+  >(product?.productDetails?.[0]);
 
   useEffect(() => {
     if (product?.productDetails?.length > 0) {
@@ -21,7 +26,7 @@ const ProductDetail = ({
     }
   }, [product]);
 
-  const handleDetailChange =(e: any) => {
+  const handleDetailChange = (e: any) => {
     const selectedName = e.target.value;
     const detail = product.productDetails.find(
       (d) => d.productDetailName === selectedName
@@ -118,6 +123,14 @@ const ProductDetail = ({
                   value={selectedDetail?.config?.configName || ""}
                 />
               </Form.Group>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => {
+                  handleShowAddDetail();
+                  handleClose();
+                }}>
+                  Thêm detail
+                </Button>
+              </Modal.Footer>
             </Form>
           </Modal.Body>
         </Modal>

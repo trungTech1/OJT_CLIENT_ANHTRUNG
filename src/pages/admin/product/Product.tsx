@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Product.scss";
 import type { ProductInterface } from "@/interface/product.interface";
 import api from "@/api";
@@ -8,7 +8,6 @@ import { Modal } from "antd";
 import AddModal from "./modal/Add-editProduct";
 import Add from "./modal/Add";
 import AddDetail from "./modal/AddDetail";
-import { debounce } from "lodash";
 
 export default function Product() {
   const [products, setProducts] = useState<ProductInterface[]>([]);
@@ -25,10 +24,19 @@ export default function Product() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
 
-  const fetchProducts = async (page: number, limit: number,searchTerm :string, filterStatus:string ) => {
+  const fetchProducts = async (
+    page: number,
+    limit: number,
+    searchTerm: string,
+    filterStatus: string
+  ) => {
     try {
-      console.log("fetching", page, limit,searchTerm, filterStatus);
-      const response = await api.products.getProducts(page - 1, limit, searchTerm, filterStatus);
+      const response = await api.products.getProducts(
+        page - 1,
+        limit,
+        searchTerm,
+        filterStatus
+      );
       setProducts(response.data.products);
       setTotalProducts(response.data.totalProducts);
     } catch (err) {
@@ -37,10 +45,9 @@ export default function Product() {
   };
   useEffect(() => {
     fetchProducts(currentPage, productsPerPage, searchTerm, filterStatus);
-  }, [currentPage, productsPerPage, searchTerm, filterStatus]);
+  }, [currentPage, filterStatus]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("da vao");
     const newStatus = e.target.value;
     setFilterStatus(newStatus);
     setCurrentPage(1);
@@ -52,18 +59,8 @@ export default function Product() {
     setCurrentPage(newPage);
   };
 
-  const debouncedSearch = useCallback(
-    debounce((nextValue: string) => {
-      setSearchTerm(nextValue);
-    }, 500),
-    [ setSearchTerm]
-  );
   const handleSearch = () => {
-    setCurrentPage(1);
     fetchProducts(1, productsPerPage, searchTerm, filterStatus);
-  };
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedSearch(e.target.value);
   };
 
   const handleAddConfig = () => {
@@ -136,9 +133,11 @@ export default function Product() {
         products={products}
       />
       <DetailModal
+        handleShowAddDetail={() => setShowAddDetailModal(true)}
         show={showModalDetail}
         handleClose={() => setShowModalDetail(false)}
         product={selectedProduct}
+        showAdd={false}
       />
       <AddModal
         show={showProductModal}
@@ -153,8 +152,7 @@ export default function Product() {
           <input
             type="text"
             placeholder="Search for product"
-            value={searchTerm}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
             style={{
