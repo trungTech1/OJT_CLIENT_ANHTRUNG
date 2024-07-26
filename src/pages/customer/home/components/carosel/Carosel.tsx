@@ -1,4 +1,5 @@
 import { Carousel } from "antd";
+import "./Carosel.scss";
 
 import {
   AppstoreOutlined,
@@ -104,17 +105,40 @@ export default function Carosel() {
         </div>
         <div className="mid"></div>
         <div className="right">
-          <Carousel autoplay>
-            {banners.map((banner) => (
-              <div key={banner.id}>
-                <img
-                  src={banner.image}
-                  alt={banner.bannerName}
-                  style={{ width: "100%", height: "345px" }}
-                />
-              </div>
-            ))}
-          </Carousel>
+          <div
+            className="carosel-container"
+            style={{
+              width: "725px",
+            }}
+          >
+            <Carousel autoplay>
+              {banners.map((banner) => (
+                <div key={banner.id}>
+                  <img
+                    src={banner.image}
+                    alt={banner.bannerName}
+                    style={{
+                      width: "725px",
+                      height: "350px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              ))}
+            </Carousel>
+          </div>
+
+          <div className="promotional-banners">
+            <div className="promo-banner">
+              <img src="https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/banner-top-r1.jpg?alt=media&token=dcd88e78-9f02-41f8-8278-4fc593f86ef0" alt="" />
+            </div>
+            <div className="promo-banner">
+              <img src="https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/banner-top-r2.jpg?alt=media&token=8bdaf45a-a9c3-441c-bc09-195052dabda5" alt="" />
+            </div>
+            <div className="promo-banner">
+              <img src="https://firebasestorage.googleapis.com/v0/b/shopojtat.appspot.com/o/banner-top-r3.jpg?alt=media&token=04660378-cc81-484a-94b6-634dabbe5e7d" alt="" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

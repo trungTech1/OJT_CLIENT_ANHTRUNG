@@ -29,9 +29,15 @@ const BestSellingProducts: React.FC = () => {
   return (
     <div className="best-selling-products">
       <div className="header">
-        <div className="badge">This Month</div>
-        <h2>Best Selling Products</h2>
-        <button className="view-all-button">View All</button>
+        <div className="header-up">
+          <div className="header-up-box"></div>
+          <div className="badge">This Month</div>
+        </div>
+
+        <div className="header-down">
+          <h2>Best Selling Products</h2>
+          <button className="view-all-button">View All</button>
+        </div>
       </div>
 
       <div className="product-grid">

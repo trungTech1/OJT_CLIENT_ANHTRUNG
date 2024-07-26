@@ -1,0 +1,90 @@
+// menu and carosel
+.menu_hero {
+    display: flex;
+    justify-content: space-between;
+    height: 350px;
+    width: 100%;
+
+    .left {
+        width: 22%;
+        border: 1px solid black;
+    }
+
+    .mid {
+        width: 0.1%;
+        background-color: rgb(192, 192, 192);
+        transform: translate(0px, -17px);
+        height: 361px;
+    }
+
+    .right {
+        width: 75%;
+        display: flex;
+        justify-content: space-between;
+
+        // background-color: red;
+        .contentStyle {
+            height: 344px;
+            color: #ca3030;
+            line-height: 160px;
+            background-color: #364d79;
+        }
+
+        .promotional-banners {
+            max-width: 24%;
+            display: grid;
+            grid-template-rows: repeat(3, 1fr); // 3 hàng bằng nhau
+            align-items: center;
+            gap:10px;
+        }
+
+        .promo-banner {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+            height: 100%;
+            border-radius: 7px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+}
+
+//carosel
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel .slick-dots li button {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 15px;
+    padding: 0;
+    color: transparent;
+    font-size: 0;
+    background: #818080;
+    border: 2px solid white;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    opacity: 0.2;
+    transition: all 0.3s;
+}
+
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel .slick-dots li.slick-active button {
+    background: #ff1f1f;
+    opacity: 1;
+}
+
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel .slick-dots li.slick-active {
+    width: 15px;
+}
+
+:where(.css-dev-only-do-not-override-p8b6i).ant-carousel .slick-dots-bottom {
+    bottom: 34px;
+    border-radius: 50%;
+    transform: translate(-30px, 0px);
+}

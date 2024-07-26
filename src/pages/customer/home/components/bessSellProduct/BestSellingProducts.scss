@@ -1,16 +1,34 @@
 .best-selling-products {
     .header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         margin-bottom: 20px;
+        flex-direction: column;
+        gap: 20px;
 
-        .badge {
-            background-color: #f44336;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 14px;
+        .header-up {
+            display: flex;
+            width: 100%;
+            align-items: center;
+
+            .header-up-box {
+                background-color: #f44336;
+                width: 16px;
+                height: 39px;
+                border-radius: 2px;
+            }
+
+            .badge {
+                color: #f44336;
+                font-size: 16px;
+            }
+        }
+
+        .header-down {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
         }
 
         h2 {
@@ -25,6 +43,10 @@
             padding: 10px 20px;
             border-radius: 4px;
             cursor: pointer;
+
+            &:hover {
+                background-color: #f44336c3;
+            }
         }
     }
 

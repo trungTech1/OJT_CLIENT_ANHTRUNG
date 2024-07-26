@@ -1,13 +1,15 @@
 .home {
     // Styles chung cho trang Home
+    width: 75%;
+    margin: 0 auto;
 
     .product {
         // Styles cho container chứa cả Product và BestSelling
         display: flex;
         flex-direction: column;
         gap: 30px;
-        max-width: 1200px;
         margin: 0 auto;
+        margin-top: 30px;
 
         .product-content {
             // Styles cho component Product
