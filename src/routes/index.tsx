@@ -18,6 +18,18 @@ const RouterSetup = () => {
           element={lazyFn(() => import("@pages/home/register/Register"))}
         ></Route>
         <Route
+          path="/wishlist"
+          element={lazyFnDelay(() => import("@pages/home/wishlist/Wishlist"))}
+        ></Route>
+        <Route
+          path="/about"
+          element={lazyFnDelay(() => import("@pages/home/aboutPage/About"))}
+        ></Route>
+        <Route
+          path="/contact"
+          element={lazyFnDelay(() => import("@pages/home/contactPage/Contact"))}
+        ></Route>
+        <Route
           path="*"
           element={lazyFnDelay(() => import("@pages/not-found/404"))}
         ></Route>
