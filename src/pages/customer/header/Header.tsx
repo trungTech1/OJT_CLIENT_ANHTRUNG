@@ -95,7 +95,7 @@ export default function Header() {
                   {userStore.data ? (
                     <>
                       <MenuItem>
-                        Hello: <strong>{userStore.data.username}</strong>
+                        Hello: <strong>{userStore.data[0].username}</strong>
                       </MenuItem>
                       <MenuItem>
                         <Link to="/changeInfo" className="userInfo">
