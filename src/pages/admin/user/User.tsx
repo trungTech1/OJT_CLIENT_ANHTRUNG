@@ -11,7 +11,6 @@ export default function User() {
   const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
     api.users.getAll().then((res) => {
-      console.log("da vao", res.data);
       setUsers(res.data);
     });
   }, []);

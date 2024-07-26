@@ -9,7 +9,7 @@ export interface User {
 }
 
 export interface UserState {
-  data: User[] | null;
+  data: User | null;
 }
 
 const initialState: UserState = {

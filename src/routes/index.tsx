@@ -7,7 +7,7 @@ const RouterSetup = () => {
       <Routes>
         <Route path="/" element={lazyFnDelay(() => import("@/pages/customer"))}>
           <Route
-            path=""
+            path="home"
             element={lazyFn(() => import("@/pages/customer/home/Home"))}
           ></Route>
           <Route
@@ -36,8 +36,19 @@ const RouterSetup = () => {
               () => import("@/pages/customer/contactPage/Contact")
             )}
           ></Route>
+          <Route
+            path="changeInfo"
+            element={lazyFnDelay(
+              () => import("@/pages/customer/change-information/ChangeInfo")
+            )}
+          ></Route>
+          <Route
+            path="changePassword"
+            element={lazyFnDelay(
+              () => import("@/pages/home/change-password/ChangePassword")
+            )}
+          ></Route>
         </Route>
-
         <Route
           path="*"
           element={lazyFnDelay(() => import("@pages/not-found/404"))}
@@ -67,18 +78,6 @@ const RouterSetup = () => {
             element={lazyFn(() => import("@pages/admin/banner/Banner"))}
           ></Route>
         </Route>
-        <Route
-          path="changeInfo"
-          element={lazyFnDelay(
-            () => import("@/pages/customer/change-information/ChangeInfo")
-          )}
-        ></Route>
-        <Route
-          path="changePassword"
-          element={lazyFnDelay(
-            () => import("@/pages/home/change-password/ChangePassword")
-          )}
-        ></Route>
       </Routes>
     </BrowserRouter>
   );
