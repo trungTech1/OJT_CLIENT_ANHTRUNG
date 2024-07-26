@@ -6,28 +6,38 @@ const RouterSetup = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={lazyFnDelay(() => import("@/pages/customer"))}>
-        <Route path="" element={lazyFn(() => import("@/pages/customer/home/Home"))}></Route>
+          <Route
+            path=""
+            element={lazyFn(() => import("@/pages/customer/home/Home"))}
+          ></Route>
           <Route
             path="login"
             element={lazyFn(() => import("@/pages/customer/login/Login"))}
           ></Route>
-           <Route
-          path="register"
-          element={lazyFn(() => import("@/pages/customer/register/Register"))}
-        ></Route>
-        </Route>   
-        <Route
-          path="/wishlist"
-          element={lazyFnDelay(() => import("@pages/home/wishlist/Wishlist"))}
-        ></Route>
-        <Route
-          path="/about"
-          element={lazyFnDelay(() => import("@pages/home/aboutPage/About"))}
-        ></Route>
-        <Route
-          path="/contact"
-          element={lazyFnDelay(() => import("@pages/home/contactPage/Contact"))}
-        ></Route>
+          <Route
+            path="register"
+            element={lazyFn(() => import("@/pages/customer/register/Register"))}
+          ></Route>
+          <Route
+            path="wishlist"
+            element={lazyFnDelay(
+              () => import("@/pages/customer/wishlist/Wishlist")
+            )}
+          ></Route>
+          <Route
+            path="about"
+            element={lazyFnDelay(
+              () => import("@/pages/customer/aboutPage/About")
+            )}
+          ></Route>
+          <Route
+            path="contact"
+            element={lazyFnDelay(
+              () => import("@/pages/customer/contactPage/Contact")
+            )}
+          ></Route>
+        </Route>
+
         <Route
           path="*"
           element={lazyFnDelay(() => import("@pages/not-found/404"))}
@@ -61,6 +71,12 @@ const RouterSetup = () => {
           path="changeInfo"
           element={lazyFnDelay(
             () => import("@/pages/customer/change-information/ChangeInfo")
+          )}
+        ></Route>
+        <Route
+          path="changePassword"
+          element={lazyFnDelay(
+            () => import("@/pages/customer/change-password/ChangePassword")
           )}
         ></Route>
       </Routes>

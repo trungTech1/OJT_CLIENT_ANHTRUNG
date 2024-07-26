@@ -49,9 +49,9 @@ export default function Header() {
         <div className="navbar">
           <h1>Exclusive</h1>
           <div className="navbar-item">
-            <a href="#home">Home</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
+            <a href="/">Home</a>
+            <a href="/contact">Contact</a>
+            <a href="/about">About</a>
 
             {/* <p>Hello :{userStore.data.username}</p> */}
           </div>
@@ -97,8 +97,29 @@ export default function Header() {
                       <MenuItem>
                         Hello: <strong>{userStore.data.username}</strong>
                       </MenuItem>
-                      <MenuItem>Profile</MenuItem>
-                      <MenuItem>My account</MenuItem>
+                      <MenuItem>
+                        <Link to="/changeInfo" className="userInfo">
+                          My account
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link to="/changePassword" className="userInfo">
+                          Change Password
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>My Orders</MenuItem>
+                      <MenuItem>
+                        <Link
+                          to="/wishlist"
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                          }}
+                        >
+                          Wishlist
+                        </Link>
+                      </MenuItem>
+
                       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     </>
                   ) : (
