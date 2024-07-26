@@ -49,9 +49,9 @@ export default function Header() {
         <div className="navbar">
           <h1>Exclusive</h1>
           <div className="navbar-item">
-            <a href="/">Home</a>
-            <a href="/contact">Contact</a>
-            <a href="/about">About</a>
+            <Link to="home">Home</Link>
+            <Link to="contact">Contact</Link>
+            <Link to="about">About</Link>
 
             {/* <p>Hello :{userStore.data.username}</p> */}
           </div>
@@ -95,15 +95,15 @@ export default function Header() {
                   {userStore.data ? (
                     <>
                       <MenuItem>
-                        Hello: <strong>{userStore.data[0].username}</strong>
+                        Hello: <strong>{userStore.data.username}</strong>
                       </MenuItem>
                       <MenuItem>
-                        <Link to="/changeInfo" className="userInfo">
+                        <Link to="changeInfo" className="userInfo">
                           My account
                         </Link>
                       </MenuItem>
                       <MenuItem>
-                        <Link to="/changePassword" className="userInfo">
+                        <Link to="changePassword" className="userInfo">
                           Change Password
                         </Link>
                       </MenuItem>
