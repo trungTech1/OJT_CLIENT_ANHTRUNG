@@ -59,7 +59,10 @@ const AddDetail = ({
         left: "50%",
       }}
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton  style={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}>
         <Modal.Title>
           {mode === "add" ? "Add Product Detail" : "Edit Product Detail"}
         </Modal.Title>
