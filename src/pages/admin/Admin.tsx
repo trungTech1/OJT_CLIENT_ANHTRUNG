@@ -39,7 +39,7 @@ const items: MenuItem[] = [
   {
     key: "5",
     icon: <LayoutOutlined />,
-    label: <Link to={"/admin/banner"}>Brand</Link>,
+    label: <Link to={"/admin/banner"}>Banner</Link>,
   },
 ];
 
