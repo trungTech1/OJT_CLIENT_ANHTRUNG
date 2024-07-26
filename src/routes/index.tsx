@@ -5,18 +5,17 @@ const RouterSetup = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={lazyFnDelay(() => import("@pages/home/Home"))}
+        <Route path="/" element={lazyFnDelay(() => import("@/pages/customer"))}>
+        <Route path="" element={lazyFn(() => import("@/pages/customer/home/Home"))}></Route>
+          <Route
+            path="login"
+            element={lazyFn(() => import("@/pages/customer/login/Login"))}
+          ></Route>
+           <Route
+          path="register"
+          element={lazyFn(() => import("@/pages/customer/register/Register"))}
         ></Route>
-        <Route
-          path="/login"
-          element={lazyFn(() => import("@pages/home/login/Login"))}
-        ></Route>
-        <Route
-          path="/register"
-          element={lazyFn(() => import("@pages/home/register/Register"))}
-        ></Route>
+        </Route>   
         <Route
           path="*"
           element={lazyFnDelay(() => import("@pages/not-found/404"))}
@@ -49,7 +48,7 @@ const RouterSetup = () => {
         <Route
           path="changeInfo"
           element={lazyFnDelay(
-            () => import("@pages/home/change-information/ChangeInfo")
+            () => import("@/pages/customer/change-information/ChangeInfo")
           )}
         ></Route>
       </Routes>

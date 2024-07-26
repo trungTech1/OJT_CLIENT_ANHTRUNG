@@ -1,0 +1,132 @@
+.best-selling-products {
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .badge {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .view-all-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+
+        .product-card {
+            border-radius: 8px;
+            overflow: hidden;
+
+            .product-image-container {
+                position: relative;
+                overflow: hidden;
+                border-radius: 10px;
+
+                img {
+                    width: 100%;
+                    object-fit: contain;
+                    transition: transform 0.3s ease;
+                }
+
+                .product-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(255, 255, 255, 0);
+                    display: flex;
+                    align-items: flex-end;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+
+                .add-to-cart-btn {
+                    background-color: #000000;
+                    color: #ffffff;
+                    border: none;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    width: 100%;
+                    transition: background-color 0.3s ease;
+
+                    &:hover {
+                        background-color: #2d2c2c;
+                    }
+                }
+            }
+
+            //khi hover vào button add to cart thì hiện ra
+            .product-image-container:hover .product-overlay {
+                opacity: 1;
+            }
+
+            // .product-image-container:hover img {
+            //     transform: scale(1.1);
+            // }
+
+
+            .product-info {
+                margin-top: 20px;
+
+                h3 {
+                    margin: 0 0 10px;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
+                .price-container {
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 10px;
+
+                    .current-price {
+                        color: #f44336;
+                        font-weight: bold;
+                    }
+
+                    .original-price {
+                        text-decoration: line-through;
+                        color: #282727a6;
+                    }
+                }
+
+                .rating {
+                    display: flex;
+                    align-items: center;
+
+                    .stars {
+                        color: #ffd700;
+                        margin-right: 5px;
+                    }
+
+                    .reviews {
+                        color: #2c2c2c;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
