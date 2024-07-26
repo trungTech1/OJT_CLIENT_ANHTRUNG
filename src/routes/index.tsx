@@ -76,7 +76,7 @@ const RouterSetup = () => {
         <Route
           path="changePassword"
           element={lazyFnDelay(
-            () => import("@/pages/customer/change-password/ChangePassword")
+            () => import("@/pages/home/change-password/ChangePassword")
           )}
         ></Route>
       </Routes>
