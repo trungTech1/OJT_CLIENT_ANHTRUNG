@@ -4,10 +4,11 @@ import productApi from "./module/product.api";
 import colorApi from "./module/color.api";
 import brandApi from "./module/brand.api";
 import ConfigApi from "./module/config.api";
-
 import { productDetailApi } from "./module/productDetail.api";
 import { bannerApi } from "./module/banner.api";
 import { wishlistApi } from "./module/wishlist.api";
+import { catrApi } from "./module/cart.api";
+import './axios.instance';
 
 export default {
   categories: categoryApi,
@@ -19,4 +20,5 @@ export default {
   banner: bannerApi,
   productDetail: productDetailApi,
   wishlistApi: wishlistApi,
+  cart: catrApi,
 };

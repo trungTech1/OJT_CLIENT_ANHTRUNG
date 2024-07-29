@@ -7,6 +7,7 @@ import api from "@/api";
 import { formatCurrency } from "@/utils/formatDate";
 import { Link } from "react-router-dom";
 
+
 const Products = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
   //   const [filterStatus, setFilterStatus] = useState("all");

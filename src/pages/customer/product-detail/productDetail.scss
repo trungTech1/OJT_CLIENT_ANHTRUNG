@@ -1,0 +1,196 @@
+// src/components/ProductPage.scss
+
+.product-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    
+    .breadcrumb {
+      margin-bottom: 20px;
+      
+      a {
+        color: #007bff;
+        text-decoration: none;
+        margin-right: 5px;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      
+      span {
+        color: #6c757d;
+      }
+    }
+    
+    .product-details {
+      display: flex;
+      
+      .product-images {
+        flex: 1;
+        margin-right: 20px;
+        
+        .main-image {
+          img {
+            width: 100%;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+          }
+        }
+        
+        .thumbnail-images {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 10px;
+          
+          img {
+            width: 24%;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+        }
+      }
+      
+      .product-info {
+        flex: 1;
+        
+        h1 {
+          font-size: 24px;
+          margin-bottom: 10px;
+        }
+        
+        .price {
+          font-size: 20px;
+          color: #28a745;
+          margin-bottom: 10px;
+        }
+        
+        .description {
+          margin-bottom: 20px;
+        }
+        
+        .options {
+          margin-bottom: 20px;
+          
+          .colors,
+          .sizes {
+            margin-bottom: 10px;
+            
+            span {
+              display: inline-block;
+                margin-right: 10px;
+            }
+            
+            button {
+              margin-right: 10px;
+              padding: 5px 10px;
+              border: 1px solid #dee2e6;
+              background-color: #fff;
+              cursor: pointer;
+              
+              &.red {
+                background-color: #dc3545;
+              }
+              
+              &.black {
+                background-color: #343a40;
+              }
+              
+              &.active {
+                border-color: #007bff;
+              }
+            }
+          }
+        }
+        
+        .quantity {
+          display: flex;
+          align-items: center;
+          margin-bottom: 20px;
+          
+          button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #dee2e6;
+            background-color: #fff;
+            cursor: pointer;
+            
+            &.decrease {
+              border-radius: 4px 0 0 4px;
+            }
+            
+            &.increase {
+              border-radius: 0 4px 4px 0;
+            }
+          }
+          
+          input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            border-left: none;
+            border-right: none;
+          }
+        }
+        
+        .buy-now {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          border: none;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 4px;
+          &:hover {
+            background-color: #0056b3;
+          }
+          &:active {
+            background-color: #004286;
+          }
+        }
+        
+        .delivery-info {
+          margin-top: 20px;
+          
+          p {
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
+    
+    .related-items {
+      margin-top: 40px;
+      
+      h2 {
+        margin-bottom: 20px;
+      }
+      
+      .item-list {
+        display: flex;
+        justify-content: space-between;
+        
+        .item {
+          width: 24%;
+          
+          img {
+            width: 100%;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+          }
+          
+          p {
+            margin: 10px 0 5px;
+            
+            &.price {
+              color: #28a745;
+            }
+          }
+        }
+      }
+    }
+  }
+  
