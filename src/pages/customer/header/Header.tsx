@@ -9,7 +9,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "@/api";
+import { Product } from "@/interface/product.interface";
 export default function Header() {
   const userStore = useSelector((store: RootState) => store.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -26,6 +28,19 @@ export default function Header() {
   };
   const cartStore = useSelector((state: RootState) => state.cart);
   console.log("cartStore", cartStore);
+
+  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
+  useEffect(() => {
+    api.wishlistApi.getAllWishlist().then((res) => {
+      // Extract productDetails from each product in the response data
+      const allProductDetails = res.data
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((item: any) => item.product.productDetails)
+        .flat();
+      setWishlistItems(allProductDetails);
+      console.log("san pham", allProductDetails);
+    });
+  }, []);
   return (
     <>
       <div className="header">
@@ -66,9 +81,11 @@ export default function Header() {
               </button>
             </div>
             <div className="search-item">
-              <a href="#favorite">
+              <Link to="wishlist">
+                {" "}
                 <FavoriteBorderIcon></FavoriteBorderIcon>
-              </a>
+              </Link>
+              <p>{wishlistItems.length}</p>
               <div className="cart">
                 <Link to="cart">
                   <ShoppingCartIcon></ShoppingCartIcon>

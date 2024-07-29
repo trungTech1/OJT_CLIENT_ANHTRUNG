@@ -1,46 +1,67 @@
-.order-table {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+.orders {
   padding: 20px;
+  background-color: #f9f9f9;
 
   h2 {
     margin-bottom: 20px;
+    color: #333;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 
-    th,
-    td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
+    thead {
+      tr {
+        background-color: #f1f1f1;
+
+        th {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 2px solid #ddd;
+        }
+      }
     }
 
-    th {
-      background-color: #f2f2f2;
-      font-weight: bold;
-    }
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f9f9f9;
+        }
 
-    tr:hover {
-      background-color: #f5f5f5;
-    }
+        &:hover {
+          background-color: #f1f1f1;
+        }
 
-    button {
-      padding: 5px 10px;
-      background-color: #ab3939;
-      color: white;
-      border: none;
-      cursor: pointer;
+        td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
 
-      &:hover {
-        background-color: #a04545;
+          select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          }
+
+          button {
+            padding: 5px 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #b30000;
+            }
+          }
+        }
       }
     }
   }
 }
+
 .order-details {
   background-color: #f9f9f9;
   border: 1px solid #ddd;

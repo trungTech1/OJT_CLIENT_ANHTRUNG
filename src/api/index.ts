@@ -8,7 +8,8 @@ import { productDetailApi } from "./module/productDetail.api";
 import { bannerApi } from "./module/banner.api";
 import { wishlistApi } from "./module/wishlist.api";
 import { catrApi } from "./module/cart.api";
-import './axios.instance';
+import "./axios.instance";
+import { orderApi } from "./module/order.api";
 
 export default {
   categories: categoryApi,
@@ -21,4 +22,5 @@ export default {
   productDetail: productDetailApi,
   wishlistApi: wishlistApi,
   cart: catrApi,
+  order: orderApi,
 };
