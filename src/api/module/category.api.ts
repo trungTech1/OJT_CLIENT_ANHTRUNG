@@ -7,7 +7,7 @@ export interface CategoryApiInterface {
 }
 
 const prefix = '/category';
-const url = import.meta.env.VITE_API_URL
+export const url = import.meta.env.VITE_API_URL
 const categoryApi = {
   getAll: () => {
     return axios.get(`${url}${prefix}`);

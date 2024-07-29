@@ -1,0 +1,152 @@
+.cart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .breadcrumb {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    th {
+      background-color: #f8f8f8;
+      font-weight: bold;
+    }
+  }
+  
+  .product-info {
+    display: flex;
+    align-items: center;
+  
+    img {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+  }
+  
+  .quantity-control {
+    display: flex;
+    align-items: center;
+  
+    input {
+      width: 50px;
+      text-align: center;
+      margin: 0 5px;
+    }
+  
+    button {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  }
+  
+  .cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
+  .cart-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .coupon-section {
+    display: flex;
+    align-items: flex-start;
+    width: 40%;
+  
+    input {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+  
+    button {
+      padding: 10px 15px;
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+  
+      &:hover {
+        background-color: #b71c1c;
+      }
+    }
+  }
+  
+  
+  .cart-totals {
+    width: 35%;
+    border: 1px solid #ddd;
+    padding: 20px;
+  
+    h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+  
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+  
+      &.total {
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 10px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+      }
+    }
+    .proceed-checkout {
+        width: 100%;
+        padding: 12px;
+        background-color: #d32f2f;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 16px;
+    
+        &:hover {
+          background-color: #b71c1c;
+        }
+      }
+  }
+  

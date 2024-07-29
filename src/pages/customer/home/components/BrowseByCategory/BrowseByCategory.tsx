@@ -26,7 +26,7 @@ const BrowseByCategory: React.FC = () => {
       </div>
       <div className="category-grid">
         {categories?.map((category) => (
-          <div key={category.name} className="category-item">
+          <div key={category.id} className="category-item">
               <img src={category.image} alt={category.name} className="category-icon" 
               style={{width: '50px', height: '50px',}}/> 
             <span className="category-name">{category.name}</span>

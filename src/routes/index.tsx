@@ -55,9 +55,13 @@ const RouterSetup = () => {
               () => import("@/pages/customer/products/Products")
             )}
           ></Route>
+           <Route
+            path="product/:id"
+            element={lazyFnDelay(() => import('@/pages/customer/product-detail/ProductDetail'))}
+          ></Route>
           <Route
-            path="*"
-            element={lazyFnDelay(() => import("@pages/not-found/404"))}
+            path="cart"
+            element={lazyFnDelay(() => import("@/pages/customer/cart/Cart"))}
           ></Route>
         </Route>
 

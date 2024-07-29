@@ -241,4 +241,27 @@
       }
     }
   }
+
+  
+}
+.cart{
+  position: relative;
+  .cart-number{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    // background-color: rgb(255, 255, 255);
+    color: rgb(214, 61, 61);
+    border-radius: 50%;
+    border: 1px solid rgb(0, 0, 0);
+    font-weight: 700;
+    font-size: small;
+    // padding: 5px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
 }

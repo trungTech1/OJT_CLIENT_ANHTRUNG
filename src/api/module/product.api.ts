@@ -29,6 +29,9 @@ const productApi = {
     deleteProduct: (id: number) => {
         return axios.delete(`${URL}${prefix}/delete/${id}`);
     },
+    getProductById: (id: number) => {
+        return axios.get(`${URL}${prefix}/${id}`);
+    },
 };
 
 export default productApi;

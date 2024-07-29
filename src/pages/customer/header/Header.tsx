@@ -12,7 +12,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import React from "react";
 export default function Header() {
   const userStore = useSelector((store: RootState) => store.user);
-  console.log("userStore", userStore.data ? userStore.data : "No user data");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,6 +24,8 @@ export default function Header() {
     localStorage.removeItem("token");
     window.location.reload();
   };
+  const cartStore = useSelector((state: RootState) => state.cart);
+  console.log("cartStore", cartStore);
   return (
     <>
       <div className="header">
@@ -68,9 +69,21 @@ export default function Header() {
               <a href="#favorite">
                 <FavoriteBorderIcon></FavoriteBorderIcon>
               </a>
-              <a href="#cart">
-                <ShoppingCartIcon></ShoppingCartIcon>
-              </a>
+              <div className="cart">
+                <Link to="cart">
+                  <ShoppingCartIcon></ShoppingCartIcon>
+                  <span className="cart-number">
+                    {
+                      //hiển thị tổng số lượng sản phẩm trong giỏ hàng
+                      cartStore.data?.reduce(
+                        (total, item) => total + item.quantity,
+                        0
+                      )
+                    }
+                  </span>
+                </Link>
+              </div>
+
               <div className="account">
                 <Button
                   id="basic-button"
@@ -95,24 +108,26 @@ export default function Header() {
                   }}
                 >
                   {userStore.data ? (
-                    <>
-                      <MenuItem>
-                        Hello: <strong>{userStore.data.username}</strong>
-                      </MenuItem>
-                      <MenuItem>
-                        <Link
-                          to="/Account_manager"
-                          style={{
-                            textDecoration: "none",
-                            color: "black",
-                          }}
-                        >
-                          {" "}
-                          Account Manager
-                        </Link>
-                      </MenuItem>
-                      <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-                    </>
+                    [
+                      <>
+                        <MenuItem>
+                          Hello: <strong>{userStore.data.username}</strong>
+                        </MenuItem>
+                        <MenuItem>
+                          <Link
+                            to="/Account_manager"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            {" "}
+                            Account Manager
+                          </Link>
+                        </MenuItem>
+                        <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                      </>,
+                    ]
                   ) : (
                     <MenuItem onClick={handleClose}>
                       <Link
