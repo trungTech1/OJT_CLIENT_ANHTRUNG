@@ -4,7 +4,7 @@ import "./products.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import api from "@/api";
-import {formatCurrency} from "@/utils/formatDate";
+import { formatCurrency } from "@/utils/formatDate";
 import { Link } from "react-router-dom";
 
 const Products = () => {
@@ -17,6 +17,7 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const categoryStore = useSelector((state: RootState) => state.category);
+  const userStore = useSelector((state: RootState) => state.user);
   const pageCount = Math.ceil(totalProducts / productsPerPage);
 
   const fetchProducts = async (
@@ -60,29 +61,71 @@ const Products = () => {
   ) => {
     setSelectedCategory(event.target.value);
   };
+  const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
 
+  const toggleFavorite = async (productId: number, userId: number) => {
+    const isCurrentlyFavorite = favorites[productId];
+
+    try {
+      if (isCurrentlyFavorite) {
+        await api.wishlistApi
+          .deleteWishlist(userId, productId)
+          .then((res) => {
+            window.alert(res.data);
+          })
+          .catch((err) => {
+            window.alert(err.response.data);
+          });
+      } else {
+        await api.wishlistApi
+          .addWishlist(userId, productId)
+          .then((res) => {
+            window.alert(res.data);
+          })
+          .catch((err) => {
+            window.alert(err.response.data);
+          });
+      }
+
+      setFavorites((prevFavorites) => ({
+        ...prevFavorites,
+        [productId]: !prevFavorites[productId],
+      }));
+
+      // console.log("productId", productId);
+      // console.log("userId", userId);
+    } catch (error) {
+      console.error("Error updating wishlist", error);
+    }
+  };
   const renderProductDetailCard = (detail: ProductDetail) => (
     <div className="product-detail-card" key={detail.id}>
-       <img
+      <img
         src={detail.productDetailImages[0].image}
         alt={detail.productDetailName}
       />
-      <Link
-        to={`product-detail/${detail.id}`}
-      >
-      <h3>{detail.productDetailName}</h3>
+      <Link to={`product-detail/${detail.id}`}>
+        <h3>{detail.productDetailName}</h3>
       </Link>
-   
-    <div className="price">
-      <span className="current-price">
-        {formatCurrency(detail.unitPrice)}
-      </span>
-      {/* {product.originalPrice && (
+
+      <div className="price">
+        <span className="current-price">
+          {formatCurrency(detail.unitPrice)}
+        </span>
+        <div className="favorite-button">
+          <button
+            className={`favorite-button ${favorites ? "active" : ""}`}
+            onClick={() => toggleFavorite(detail.id, userStore.data?.id || 0)}
+          >
+            {favorites[detail.id] ? "♥" : "♡"}
+          </button>
+        </div>
+        {/* {product.originalPrice && (
         <span className="original-price">${product.originalPrice}</span>
       )} */}
+      </div>
+      <button className="add-to-cart">Add to Cart</button>
     </div>
-    <button className="add-to-cart">Add to Cart</button>
-  </div>
   );
 
   const renderProductCard = (product: ProductInterface) => (

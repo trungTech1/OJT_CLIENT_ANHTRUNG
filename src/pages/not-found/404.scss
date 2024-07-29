@@ -1,0 +1,35 @@
+.error_container {
+  width: 75%;
+  margin: 0 auto;
+  height: calc(100vh - 400px);
+}
+.error_contain {
+  transform: translate(28%, 50%);
+  span {
+    font-size: 100px;
+    font-weight: 400;
+  }
+  p {
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 80px;
+  }
+  button {
+    color: rgb(239, 239, 239);
+    background-color: #ff0000;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 100px;
+    border-radius: 5px;
+    font-size: 20px;
+    width: 400px;
+    height: 60px;
+  }
+}
+
+.linkToHome {
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}

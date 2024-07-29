@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import Loading from "./loading/Loading";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const lazyFnDelay = (importFunc: any) => {
@@ -12,7 +13,7 @@ export const lazyFnDelay = (importFunc: any) => {
   //const LazyComponent = lazy(importFunc);
 
   return (
-    <Suspense fallback={<>Loading ....</>}>
+    <Suspense fallback={<Loading />}>
       <LazyComponent />
     </Suspense>
   );
@@ -23,7 +24,7 @@ export const lazyFn = (importFunc: any) => {
   const LazyComponent = lazy(importFunc);
 
   return (
-    <Suspense fallback={<>Loading ....</>}>
+    <Suspense fallback={<Loading />}>
       <LazyComponent />
     </Suspense>
   );
