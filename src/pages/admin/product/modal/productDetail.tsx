@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductInterface } from "@/interface/product.interface";
 import { Modal, Form, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { ProductDetail } from "@/interface/product.interface";
 
 const ProductDetail = ({
@@ -10,7 +10,7 @@ const ProductDetail = ({
   handleClose,
   product,
 }: {
-  handleShowAddDetail: () => void;
+  handleShowAddDetail: (detail?: ProductDetail, mode?: string) => void;
   showAdd: boolean;
   show: boolean;
   handleClose: () => void;
@@ -18,10 +18,10 @@ const ProductDetail = ({
 }) => {
   const [selectedDetail, setSelectedDetail] = useState<
     ProductDetail | undefined
-  >(product?.productDetails?.[0]);
-
+  >(undefined);
   useEffect(() => {
     if (product?.productDetails?.length > 0) {
+      console.log("product", product.productDetails[0]);
       setSelectedDetail(product.productDetails[0]);
     }
   }, [product]);
@@ -92,18 +92,36 @@ const ProductDetail = ({
               </Form.Group>
               <Form.Group controlId="formProductImage">
                 <Form.Label>Image</Form.Label>
-                {product.image && (
-                  <div>
-                    <img
-                      src={product.image}
-                      alt={product.productName}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                      }}
-                    />
-                  </div>
-                )}
+                <div
+                  className="formProductImage"
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    flexWrap: "nowrap", // Thay đổi từ "wrap" thành "nowrap"
+                    overflowX: "auto", // Thêm thanh cuộn ngang
+                    width: "100%", // Đảm bảo div chiếm toàn bộ chiều rộng có sẵn
+                    padding: "10px 0", // Thêm padding để tránh thanh cuộn che mất hình ảnh
+                  }}
+                >
+                  {selectedDetail?.productDetailImages?.map(
+                    (image: any, index: number) => (
+                      <div key={index} style={{
+                        width: "70px",
+                        height: "70px",
+                        overflow: "hidden",
+                        position: "relative",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                      }} >
+                        <img
+                          src={image.image}
+                          alt="product"
+                          style={{ width: "70px", height: "70px", objectFit: "cover" ,}}
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
               </Form.Group>
               <Form.Group controlId="formProductColor">
                 <Form.Label>Color</Form.Label>
@@ -124,10 +142,23 @@ const ProductDetail = ({
                 />
               </Form.Group>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => {
-                  handleShowAddDetail();
-                  handleClose();
-                }}>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    handleShowAddDetail(selectedDetail, "edit");
+                    handleClose();
+                  }}
+                >
+                  Edit Detail
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    handleShowAddDetail(undefined, "add");
+                    handleClose();
+                  }}
+                >
                   Thêm detail
                 </Button>
               </Modal.Footer>

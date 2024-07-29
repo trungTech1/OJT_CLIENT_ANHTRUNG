@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import "./Product.scss";
-import type { ProductInterface } from "@/interface/product.interface";
+import type { ProductDetail, ProductInterface } from "@/interface/product.interface";
 import api from "@/api";
 import DetailModal from "./modal/productDetail";
 import { Modal } from "antd";
@@ -14,6 +14,10 @@ export default function Product() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [modalMode, setModalMode] = useState("add");
+  const [addDetailMode, setAddDetailMode] = useState("add");
+  const [selectedDetail, setSelectedDetail] = useState<ProductDetail>(
+    {} as ProductDetail
+  );
   const [showAddDetailModal, setShowAddDetailModal] = useState(false);
   const [addModalType, setAddModalType] = useState<
     "color" | "config" | "brand" | ""
@@ -95,7 +99,7 @@ export default function Product() {
   };
 
   const handleProductDetail = (product: ProductInterface) => {
-    if (product.productDetails != null && product.productDetails.length <= 0) {
+    if (product.productDetails != null && product.productDetails.length === 0) {
       Modal.error({
         title: "Product Detail",
         content: `Product ${product.productName} khong co detail ban vui long them detail`,
@@ -122,22 +126,29 @@ export default function Product() {
         mode="add"
         type={addModalType}
       />
-      <AddDetail
-        show={showAddDetailModal}
-        handleClose={() => {
-          setShowAddDetailModal(false);
-          setAddModalType("");
-        }}
-        mode="add"
-        product={selectedProduct}
-        products={products}
-      />
       <DetailModal
-        handleShowAddDetail={() => setShowAddDetailModal(true)}
+        handleShowAddDetail={(detail, mode) => {
+          if (detail) {
+            setSelectedDetail(detail);
+          }
+          setAddDetailMode(mode || "add");
+          setShowAddDetailModal(true);
+        }}
         show={showModalDetail}
         handleClose={() => setShowModalDetail(false)}
         product={selectedProduct}
         showAdd={false}
+      />
+      <AddDetail
+        show={showAddDetailModal}
+        handleClose={() => {
+          setShowAddDetailModal(false);
+          setAddDetailMode("add"); // Reset mode khi đóng modal
+        }}
+        mode={addDetailMode}
+        product={selectedProduct}
+        products={products}
+        selectedDetail={selectedDetail}
       />
       <AddModal
         show={showProductModal}

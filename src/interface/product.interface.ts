@@ -2,7 +2,6 @@ import { Brand } from "@/store/slices/brand.slice";
 import { Category } from "@/store/slices/category.slice";
 import { Color } from "@/store/slices/color.slice";
 import { Config } from "@/store/slices/config.slice";
-import { CardConfig } from "antd/es/config-provider/context";
 
 export interface ProductInterface {
   id: number;
@@ -24,7 +23,7 @@ export interface ProductDetail {
   stock: number;
   unitPrice: number;
   status: boolean;
-  image: string;
+  productDetailImages: image[];
   color: Color;
   config: Config;
 }
@@ -35,6 +34,7 @@ export interface ProductDetailForm {
   unitPrice: number;
   colorId: number;
   configId: number;
+  images: string[];
 }
 
 export interface ProductForm {
@@ -52,6 +52,7 @@ export interface ProductDetailForm {
   unitPrice: number;
   colorId: number;
   configId: number;
+  images: string[];
 }
 
 export interface Product {
@@ -63,4 +64,10 @@ export interface Product {
   discount?: number;
   rating?: number;
   reviewCount?: number;
+}
+
+interface image{
+  id : number;
+  image: string;
+  status: boolean;
 }

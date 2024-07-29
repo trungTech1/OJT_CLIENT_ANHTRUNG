@@ -1,9 +1,14 @@
 import api from "@/api";
-import { ProductDetailForm, ProductInterface } from "@/interface/product.interface";
+import {
+  ProductDetail,
+  ProductDetailForm,
+  ProductInterface,
+} from "@/interface/product.interface";
 import { RootState } from "@/store";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { fireBaseFn } from "@/firebase/firebase";
 
 const AddDetail = ({
   show,
@@ -11,44 +16,101 @@ const AddDetail = ({
   mode,
   product,
   products,
+  selectedDetail,
 }: {
-  show: boolean;
+  show?: boolean;
   handleClose: () => void;
-  mode: string;
-  product: ProductInterface;
-    products: ProductInterface[];
+  mode?: string;
+  product?: ProductInterface;
+  products?: ProductInterface[];
+  selectedDetail?: ProductDetail;
 }) => {
   const colorStore = useSelector((state: RootState) => state.color.data);
   const configStore = useSelector((state: RootState) => state.config.data);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState<ProductDetailForm>({
+    productDetailName: "",
+    stock: 0,
+    unitPrice: 0,
+    colorId: 0,
+    configId: 0,
+    images: [],
+  });
+  useEffect(() => {
+    if (mode === "edit" && selectedDetail) {
+      console.log("selectedDetail", selectedDetail);
+      setFormData({
+        productDetailName: selectedDetail.productDetailName,
+        stock: selectedDetail.stock,
+        unitPrice: selectedDetail.unitPrice,
+        colorId: selectedDetail.color?.id || 0,
+        configId: selectedDetail.config?.id || 0,
+        images: selectedDetail.productDetailImages|| [],
+      });
+    } else {
+      setFormData({
+        productDetailName: "",
+        stock: 0,
+        unitPrice: 0,
+        colorId: 0,
+        configId: 0,
+        images: [],
+      });
+    }
+  }, [mode, selectedDetail]);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log("dda vao");
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    const data : ProductDetailForm = {
+    const images = formData.getAll("formProductDetailImage");
+    const imageUrls: string[] = [];
+    if (images.length > 0) {
+      for (const image of images) {
+        const url = await fireBaseFn.uploadToStorage(image as File);
+        imageUrls.push(url);
+      }
+    }
+
+    const data: ProductDetailForm = {
       productDetailName: formData.get("formProductDetailName") as string,
-      stock: Number(formData.get("formProductDetailStock")) as number,
-      unitPrice: Number(formData.get("formProductDetailPrice")) as number,
-      colorId: Number(formData.get("formProductDetailColor")) as number,
-      configId: Number(formData.get("formProductDetailConfig")) as number,
+      stock: Number(formData.get("formProductDetailStock")),
+      unitPrice: Number(formData.get("formProductDetailPrice")),
+      colorId: Number(formData.get("formProductDetailColor")),
+      configId: Number(formData.get("formProductDetailConfig")),
+      images: [...imageUrls],
     };
+
     if (mode === "add") {
-    api.productDetail.addProductDetail( data ,product.id).then((res) => {
-        //tìm product tương ứng để thêm productDetail
-        const index = products.findIndex((p) => p.id === product.id);
-        products[index].productDetails.push(res.data);
-        alert("Product detail added successfully");
-        handleClose();
+      if (product) {
+        try {
+          const res = await api.productDetail.addProductDetail(
+            data,
+            product.id
+          );
+          if (products) {
+            const index = products.findIndex((p) => p.id === product.id);
+            products[index].productDetails.push(res.data);
+            alert("Product detail added successfully");
+            handleClose();
+          }
+        } catch (error) {
+          console.error("Error adding product detail:", error);
+          alert("Failed to add product detail");
         }
-        );
-    } else {
-      console.log("edit");
+      } else {
+        console.error("Product is undefined");
+      }
+    } else if (mode === "edit" && selectedDetail) {
+      try {
+        await api.productDetail.updateProductDetail(data, selectedDetail.id);
+        alert("Product detail updated successfully");
+        handleClose();
+      } catch (error) {
+        console.error("Error updating product detail:", error);
+        alert("Failed to update product detail");
+      }
     }
   };
-
   return (
     <Modal
       show={show}
@@ -59,10 +121,13 @@ const AddDetail = ({
         left: "50%",
       }}
     >
-      <Modal.Header closeButton  style={{
-        display: "flex",
-        justifyContent: "space-between",
-      }}>
+      <Modal.Header
+        closeButton
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Modal.Title>
           {mode === "add" ? "Add Product Detail" : "Edit Product Detail"}
         </Modal.Title>
@@ -84,27 +149,43 @@ const AddDetail = ({
               type="text"
               name="formProductDetailName"
               placeholder="Enter product detail name"
+              defaultValue={formData.productDetailName}
             />
           </Form.Group>
           <Form.Group controlId="formProductDetailStock">
             <Form.Label>Stock</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               name="formProductDetailStock"
               placeholder="Enter stock"
+              value={formData.stock}
+              onChange={(e) =>
+                setFormData({ ...formData, stock: Number(e.target.value) })
+              }
             />
           </Form.Group>
           <Form.Group controlId="formProductDetailPrice">
             <Form.Label>Price</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               name="formProductDetailPrice"
               placeholder="Enter price"
+              value={formData.unitPrice}
+              onChange={(e) =>
+                setFormData({ ...formData, unitPrice: Number(e.target.value) })
+              }
             />
           </Form.Group>
           <Form.Group controlId="formProductDetailColor">
             <Form.Label>Color</Form.Label>
-            <Form.Control as="select" name="formProductDetailColor">
+            <Form.Control
+              as="select"
+              name="formProductDetailColor"
+              value={formData.colorId}
+              onChange={(e) =>
+                setFormData({ ...formData, colorId: Number(e.target.value) })
+              }
+            >
               <option value="">Chọn Color</option>
               {colorStore?.map((color) => (
                 <option key={color.id} value={color.id}>
@@ -113,9 +194,31 @@ const AddDetail = ({
               ))}
             </Form.Control>
           </Form.Group>
+          <Form.Group controlId="formProductDetailImage">
+            <Form.Label>Image</Form.Label>
+            <br />
+            {formData.images?.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt="product detail"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  marginRight: "10px",
+                }}
+              />
+            ))}
+            <Form.Control type="file" name="formProductDetailImage" multiple />
+          </Form.Group>
           <Form.Group controlId="formProductDetailConfig">
             <Form.Label>Config</Form.Label>
-            <Form.Control as="select" name="formProductDetailConfig">
+            <Form.Control as="select" name="formProductDetailConfig"
+              value={formData.configId}
+              onChange={(e) =>
+                setFormData({ ...formData, configId: Number(e.target.value) })
+              }
+            >
               <option value="">Chọn Config</option>
               {configStore?.map((config) => (
                 <option key={config.id} value={config.id}>

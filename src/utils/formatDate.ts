@@ -26,3 +26,11 @@ export const formatDate = (date: Date) => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
+
+//chuyển thành tiền việt nam
+export const formatCurrency = (price: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(price);
+};
