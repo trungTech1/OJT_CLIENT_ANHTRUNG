@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./ChangeInfo.scss";
+import "./EditProfile.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import api from "@/api";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ChangeInfo() {
   const userStore = useSelector((store: RootState) => store.user);
@@ -49,9 +49,6 @@ function ChangeInfo() {
   };
   return (
     <>
-      <div className="linktoHome">
-        <Link to="/">Home</Link> / <strong>Change Information</strong>
-      </div>
       <div className="change-info">
         <h2>Change User Information</h2>
         <form onSubmit={handleSubmit}>

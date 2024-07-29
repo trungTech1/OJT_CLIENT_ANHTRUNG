@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./ChangePassword.scss";
+import api from "@/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const ChangePassword: React.FC = () => {
+  const userStore = useSelector((store: RootState) => store.user);
+  // console.log("userStore", userStore.data?.id);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,18 +18,29 @@ const ChangePassword: React.FC = () => {
     // Add logic to handle password change
     if (newPassword === confirmPassword) {
       // Simulate API call
-      localStorage.removeItem("token");
-      navigate("/login"); // Navigate to /login upon success
+      const userId = userStore.data?.id;
+      api.users
+        .changePassword({
+          id: userId,
+          currentPassword,
+          newPassword,
+        })
+        .then((res) => {
+          // console.log("Change password response:", res);
+          window.alert(res.data);
+          navigate("/login");
+        })
+        .catch((err) => {
+          console.log("Change password error:", err);
+          window.alert(err.response.data);
+        });
     } else {
-      console.log("Passwords do not match");
+      console.log("Mật khẩu không khớp");
     }
   };
 
   return (
     <>
-      <div className="linktoHome">
-        <Link to="/">Home</Link> / <strong>Change Password</strong>
-      </div>
       <div className="change-password">
         <h2>Change Password</h2>
         <form onSubmit={handleSubmit}>

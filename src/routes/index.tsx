@@ -21,7 +21,7 @@ const RouterSetup = () => {
           <Route
             path="wishlist"
             element={lazyFnDelay(
-              () => import("@/pages/customer/wishlist/Wishlist")
+              () => import("@/pages/customer/account-manager/wishlist/Wishlist")
             )}
           ></Route>
           <Route
@@ -36,16 +36,11 @@ const RouterSetup = () => {
               () => import("@/pages/customer/contactPage/Contact")
             )}
           ></Route>
+
           <Route
-            path="changeInfo"
-            element={lazyFnDelay(
-              () => import("@/pages/customer/change-information/ChangeInfo")
-            )}
-          ></Route>
-          <Route
-            path="changePassword"
-            element={lazyFnDelay(
-              () => import("@/pages/home/change-password/ChangePassword")
+            path="Account_manager"
+            element={lazyFn(
+              () => import("@pages/customer/account-manager/Account_manager")
             )}
           ></Route>
         </Route>
