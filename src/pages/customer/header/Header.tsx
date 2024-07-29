@@ -49,9 +49,11 @@ export default function Header() {
         <div className="navbar">
           <h1>Exclusive</h1>
           <div className="navbar-item">
-            <Link to="home">Home</Link>
+            <Link to="">Home</Link>
             <Link to="contact">Contact</Link>
             <Link to="about">About</Link>
+            <Link to="shop">Shop</Link>
+            <Link to="products">Product</Link>
 
             {/* <p>Hello :{userStore.data.username}</p> */}
           </div>

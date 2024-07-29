@@ -5,9 +5,9 @@ const RouterSetup = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={lazyFnDelay(() => import("@/pages/customer"))}>
+        <Route path="" element={lazyFnDelay(() => import("@/pages/customer"))}>
           <Route
-            path="home"
+            path=""
             element={lazyFn(() => import("@/pages/customer/home/Home"))}
           ></Route>
           <Route
@@ -46,6 +46,18 @@ const RouterSetup = () => {
             path="changePassword"
             element={lazyFnDelay(
               () => import("@/pages/home/change-password/ChangePassword")
+            )}
+          ></Route>
+          <Route
+            path="wishlist"
+            element={lazyFnDelay(
+              () => import("@/pages/customer/wishlist/Wishlist")
+            )}
+          ></Route>
+          <Route
+            path="products"
+            element={lazyFnDelay(
+              () => import("@/pages/customer/products/Products")
             )}
           ></Route>
         </Route>

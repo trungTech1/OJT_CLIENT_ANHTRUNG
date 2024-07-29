@@ -8,6 +8,9 @@ export const productDetailApi = {
     addProductDetail: async (data: ProductDetailForm, productId: number) => {
         return axios.post(`${URL}${prefix}/create/${productId}`, data);
     },
+    updateProductDetail: async (data: ProductDetailForm, productDetailId: number) => {
+        return axios.put(`${URL}${prefix}/update/${productDetailId}`, data);
+    },
     };
 
 
