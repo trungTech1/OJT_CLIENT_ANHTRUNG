@@ -41,4 +41,7 @@ export const userApi = {
   changeInfo: async (data: any) => {
     return axios.post(`${url}/user/changeInfor`, data);
   },
+  changePassword: async (data: any) => {
+    return axios.post(`${url}/user/changePassword`, data);
+  },
 };

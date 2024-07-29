@@ -121,6 +121,18 @@ export default function Header() {
                           Wishlist
                         </Link>
                       </MenuItem>
+                      <MenuItem>
+                        <Link
+                          to="/Account_manager"
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                          }}
+                        >
+                          {" "}
+                          Account Manager
+                        </Link>
+                      </MenuItem>
 
                       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     </>
