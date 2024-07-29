@@ -39,12 +39,12 @@ function ChangeInfo() {
       .changeInfo(userInfo)
       .then((res) => {
         // console.log(res);
-        window.alert("Change information successfully");
+        window.alert(res.data);
         localStorage.removeItem("token");
-        navigate("/login"); // Navigate to /login upon success
+        navigate("/login");
       })
       .catch((err) => {
-        console.log(err);
+        window.alert(err.response.data);
       });
   };
   return (

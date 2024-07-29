@@ -56,6 +56,7 @@ export interface ProductDetailForm {
 }
 
 export interface Product {
+  [x: string]: string | undefined;
   id: number;
   name: string;
   price: number;
@@ -66,8 +67,8 @@ export interface Product {
   reviewCount?: number;
 }
 
-interface image{
-  id : number;
+interface image {
+  id: number;
   image: string;
   status: boolean;
 }

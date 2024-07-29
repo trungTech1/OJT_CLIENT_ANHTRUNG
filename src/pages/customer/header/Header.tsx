@@ -100,28 +100,6 @@ export default function Header() {
                         Hello: <strong>{userStore.data.username}</strong>
                       </MenuItem>
                       <MenuItem>
-                        <Link to="changeInfo" className="userInfo">
-                          My account
-                        </Link>
-                      </MenuItem>
-                      <MenuItem>
-                        <Link to="changePassword" className="userInfo">
-                          Change Password
-                        </Link>
-                      </MenuItem>
-                      <MenuItem>My Orders</MenuItem>
-                      <MenuItem>
-                        <Link
-                          to="/wishlist"
-                          style={{
-                            textDecoration: "none",
-                            color: "black",
-                          }}
-                        >
-                          Wishlist
-                        </Link>
-                      </MenuItem>
-                      <MenuItem>
                         <Link
                           to="/Account_manager"
                           style={{
@@ -133,7 +111,6 @@ export default function Header() {
                           Account Manager
                         </Link>
                       </MenuItem>
-
                       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     </>
                   ) : (

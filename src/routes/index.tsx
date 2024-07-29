@@ -46,7 +46,7 @@ const RouterSetup = () => {
           <Route
             path="wishlist"
             element={lazyFnDelay(
-              () => import("@/pages/customer/wishlist/Wishlist")
+              () => import("@/pages/customer/account-manager/wishlist/Wishlist")
             )}
           ></Route>
           <Route
@@ -55,11 +55,12 @@ const RouterSetup = () => {
               () => import("@/pages/customer/products/Products")
             )}
           ></Route>
+          <Route
+            path="*"
+            element={lazyFnDelay(() => import("@pages/not-found/404"))}
+          ></Route>
         </Route>
-        <Route
-          path="*"
-          element={lazyFnDelay(() => import("@pages/not-found/404"))}
-        ></Route>
+
         <Route
           path="/admin"
           element={lazyFnDelay(() => import("@pages/admin/Admin"))}

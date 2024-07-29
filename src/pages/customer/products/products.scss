@@ -4,7 +4,7 @@
   padding: 20px;
 }
 
-.filters{
+.filters {
   display: flex;
   justify-content: space-between;
 }
@@ -65,7 +65,7 @@
       text-decoration: line-through;
       color: #888;
     }
-    span{
+    span {
       color: #ee4646;
     }
   }
@@ -87,4 +87,11 @@
       transform: translateY(1px);
     }
   }
+}
+.favorite-button {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: red;
+  font-size: 31px;
 }

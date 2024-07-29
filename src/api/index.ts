@@ -7,6 +7,7 @@ import ConfigApi from "./module/config.api";
 
 import { productDetailApi } from "./module/productDetail.api";
 import { bannerApi } from "./module/banner.api";
+import { wishlistApi } from "./module/wishlist.api";
 
 export default {
   categories: categoryApi,
@@ -17,4 +18,5 @@ export default {
   configs: ConfigApi,
   banner: bannerApi,
   productDetail: productDetailApi,
+  wishlistApi: wishlistApi,
 };
