@@ -23,8 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveComponent }) => {
       </ul>
       <h2>My Orders</h2>
       <ul>
-        <li>My Returns</li>
-        <li>My Cancellations</li>
+        <li onClick={() => setActiveComponent("order")}>My List</li>
       </ul>
       <h2>My Wishlist</h2>
       <ul>

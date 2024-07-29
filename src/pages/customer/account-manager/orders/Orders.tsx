@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import "./Order.scss";
+import "./Orders.scss";
 import api from "@/api";
 import { Order } from "@/interface/order.interface";
 
-const OrderTable: React.FC = () => {
+const Orders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  //fill orders with data
+  // Fill orders with data
   useEffect(() => {
     api.order.getAllOrder().then((res) => {
       setOrders(res.data);
-      // console.log("Orders:", res.data);
     });
   }, []);
+
   const handleDetailClick = (order: Order) => {
     setSelectedOrder(order);
     setModalIsOpen(true);
@@ -26,7 +26,7 @@ const OrderTable: React.FC = () => {
     setSelectedOrder(null);
   };
 
-  //change order status
+  // Change order status
   const handleStatusChange = (id: number, status: string) => {
     api.order.changeOrderStatus(id, status).then((res) => {
       const updatedOrders = orders.map((order) => {
@@ -41,7 +41,7 @@ const OrderTable: React.FC = () => {
   };
 
   return (
-    <div className="order-table">
+    <div className="orders">
       <h2>Orders</h2>
       <table>
         <thead>
@@ -60,19 +60,7 @@ const OrderTable: React.FC = () => {
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{new Date(order.created_at).toLocaleString()}</td>
-              <td>
-                <select
-                  value={order.status}
-                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                  className="btn btn-group"
-                >
-                  <option value="SHOPPING">SHOPPING</option>
-                  <option value="PENDING">PENDING</option>
-                  <option value="SHIPPING">SHIPPING</option>
-                  <option value="DELIVERED">DELIVERED</option>
-                  <option value="CANCELLED">CANCELLED</option>
-                </select>
-              </td>
+              <td>{order.status}</td>
               <td>{order.serialNumber}</td>
               <td>${order.totalPrice.toFixed(2)}</td>
               <td>{order.user.username}</td>
@@ -109,4 +97,4 @@ const OrderTable: React.FC = () => {
   );
 };
 
-export default OrderTable;
+export default Orders;

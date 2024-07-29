@@ -11,6 +11,7 @@ import ChangePassword from "@pages/customer/account-manager/change-password/Chan
 import Wishlist from "@pages/customer/account-manager/wishlist/Wishlist";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import Orders from "@pages/customer/account-manager/orders/Orders";
 
 const Account_manager: React.FC = () => {
   const userStore = useSelector((store: RootState) => store.user);
@@ -26,6 +27,8 @@ const Account_manager: React.FC = () => {
         return <PaymentOption />;
       case "wishlist":
         return <Wishlist />;
+      case "order":
+        return <Orders />;
       default:
         return <EditProfile />;
     }
